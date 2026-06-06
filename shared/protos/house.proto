@@ -1,0 +1,173 @@
+syntax = "proto3";
+
+package house;
+
+import "google/protobuf/wrappers.proto";
+
+service HouseService {
+  // CRUD
+  rpc CreateHouse(CreateHouseRequest) returns (HouseResponse);
+  rpc UpdateHouse(UpdateHouseRequest) returns (HouseResponse);
+  rpc DeleteHouse(DeleteHouseRequest) returns (DeleteHouseResponse);
+  rpc GetHouse(GetHouseRequest) returns (HouseResponse);
+  rpc ListHouses(ListHousesRequest) returns (ListHousesResponse);
+  rpc ListHousesByOwner(ListHousesByOwnerRequest) returns (ListHousesResponse);
+
+
+  // Search / filters
+  rpc SearchHouses(SearchHousesRequest) returns (ListHousesResponse);
+
+  // Images
+  rpc AddHouseImage(AddHouseImageRequest) returns (HouseImageResponse);
+  rpc RemoveHouseImage(RemoveHouseImageRequest) returns (DeleteHouseResponse);
+
+  // Occupancy (called by Applications service)
+  rpc UpdateOccupancy(UpdateOccupancyRequest) returns (OccupancyResponse);
+}
+
+/* ===================== ENUMS ===================== */
+
+enum HouseStatus {
+  HOUSE_STATUS_UNSPECIFIED = 0;
+  AVAILABLE = 1;
+  UNAVAILABLE = 2;
+  ARCHIVED = 3;
+}
+
+enum OccupancyAction {
+  OCCUPANCY_ACTION_UNSPECIFIED = 0;
+  INCREMENT = 1;
+  DECREMENT = 2;
+  SET = 3;
+}
+
+/* ===================== ENTITIES ===================== */
+
+message HouseImage {
+  string id = 1;
+  string house_id = 2;
+  string image_url = 3;
+}
+
+message House {
+  string id = 1;
+  string owner_id = 2;
+  string title = 3;
+  string description = 4;
+  string location = 5;
+  int32 rating = 6;              // 0 means NULL
+  double price_per_room = 7;
+  int32 total_rooms = 8;
+  int32 occupied_rooms = 9;
+  HouseStatus status = 10;
+  string created_at = 11;
+  repeated HouseImage images = 12;
+}
+
+/* ===================== REQUESTS ===================== */
+
+message CreateHouseRequest {
+  string owner_id = 1;
+  string title = 2;
+  string description = 3;
+  string location = 4;
+  double price_per_room = 5;
+  int32 total_rooms = 6;
+  int32 occupied_rooms = 7; // optional; 0 = default
+  HouseStatus status = 8;    // optional
+}
+
+message UpdateHouseRequest {
+  string id = 1;
+  string owner_id = 2;
+
+  google.protobuf.StringValue title = 3;
+  google.protobuf.StringValue description = 4;
+  google.protobuf.StringValue location = 5;
+
+  google.protobuf.Int32Value rating = 6;
+  google.protobuf.DoubleValue price_per_room = 7;
+
+  google.protobuf.Int32Value total_rooms = 8;
+  google.protobuf.Int32Value occupied_rooms = 9;
+
+  HouseStatus status = 10; // 0 = ignore
+}
+
+message DeleteHouseRequest {
+  string id = 1;
+  string owner_id = 2;
+}
+
+message GetHouseRequest {
+  string id = 1;
+}
+
+message ListHousesRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+}
+
+message SearchHousesRequest {
+  string location = 1;     // contains match
+  double min_price = 2;
+  double max_price = 3;
+  int32 min_total_rooms = 4;
+  bool only_available = 5; // occupied < total AND not archived
+  int32 page = 6;
+  int32 page_size = 7;
+}
+
+message AddHouseImageRequest {
+  string house_id = 1;
+  string owner_id = 2;
+  string image_url = 3;
+}
+
+message RemoveHouseImageRequest {
+  string image_id = 1;
+  string owner_id = 2;
+}
+
+message UpdateOccupancyRequest {
+  string house_id = 1;
+  OccupancyAction action = 2;
+  int32 value = 3;   // amount for INC/DEC or exact for SET
+  string reason = 4; // application_id (optional)
+}
+
+/* ===================== RESPONSES ===================== */
+
+message HouseResponse {
+  House house = 1;
+}
+
+message HouseImageResponse {
+  HouseImage image = 1;
+}
+
+message ListHousesResponse {
+  repeated House houses = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+  int32 total = 4;
+}
+
+message DeleteHouseResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message OccupancyResponse {
+  bool success = 1;
+  string message = 2;
+  int32 occupied_rooms = 3;
+  int32 total_rooms = 4;
+  bool available = 5;
+}
+
+message ListHousesByOwnerRequest {
+  string owner_id = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}

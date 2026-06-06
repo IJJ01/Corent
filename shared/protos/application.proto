@@ -1,0 +1,117 @@
+syntax = "proto3";
+
+package coloc_sdr;
+
+import "google/protobuf/timestamp.proto";
+
+service AppService {
+  // Applications
+  rpc ApplyForHouse (ApplyForHouseRequest) returns (ApplicationResponse) {}
+  rpc GetApplicationsByHouse (GetApplicationsByHouseRequest) returns (ApplicationListResponse) {}
+  rpc GetApplicationsByUser (GetApplicationsByUserRequest) returns (ApplicationListResponse) {}
+  rpc AcceptApplication (ChangeApplicationStatusRequest) returns (ApplicationResponse) {}
+  rpc RejectApplication (ChangeApplicationStatusRequest) returns (ApplicationResponse) {}
+
+  // Reports
+  rpc ReportListing (ReportListingRequest) returns (ReportResponse) {}
+  rpc ListReports (ListReportsRequest) returns (ReportListResponse) {}
+  rpc UpdateReportStatus (UpdateReportStatusRequest) returns (ReportResponse) {}
+  rpc GetReport (GetReportRequest) returns (ReportResponse) {}
+}
+
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  PENDING = 1;
+  ACCEPTED = 2;
+  REJECTED = 3;
+}
+
+message Application {
+  string id = 1;
+  string applicant_id = 2;
+  string house_id = 3;
+  Status status = 4;
+  string message = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+message ApplyForHouseRequest {
+  string applicant_id = 1;
+  string house_id = 2;
+  string message = 3;
+}
+
+message GetApplicationsByHouseRequest {
+  string house_id = 1;
+  int32 page_size = 2;
+  string page_token = 3; // offset token
+}
+
+message GetApplicationsByUserRequest {
+  string user_id = 1;
+  int32 page_size = 2;
+  string page_token = 3; // offset token
+}
+
+message ChangeApplicationStatusRequest {
+  string application_id = 1;
+}
+
+message ApplicationResponse {
+  Application application = 1;
+  string error = 2;
+}
+
+message ApplicationListResponse {
+  repeated Application applications = 1;
+  string next_page_token = 2;
+  string error = 3;
+}
+
+// =======================
+// Reports
+// =======================
+
+message Report {
+  string id = 1;
+  string reporter_id = 2;
+  string house_id = 3;
+  string reason = 4;
+  string details = 5;
+  string status = 6; // open | reviewed | dismissed
+  google.protobuf.Timestamp created_at = 7;
+}
+
+message ReportListingRequest {
+  string reporter_id = 1;
+  string house_id = 2;
+  string reason = 3;
+  string details = 4;
+}
+
+message ReportResponse {
+  Report report = 1;
+  string error = 2;
+}
+
+message ListReportsRequest {
+  string status = 1; // optional: open/reviewed/dismissed
+  int32 page_size = 2;
+  string page_token = 3;
+}
+
+message ReportListResponse {
+  repeated Report reports = 1;
+  string next_page_token = 2;
+  string error = 3;
+}
+
+message UpdateReportStatusRequest {
+  string report_id = 1;
+  string status = 2; // reviewed | dismissed
+}
+
+message GetReportRequest {
+  string report_id = 1;
+}

@@ -1,0 +1,132 @@
+syntax = "proto3";
+
+package users;
+
+service UserService {
+  rpc SignupProcess (SignupRequest) returns (AuthResponse);
+  rpc LoginProcess (LoginRequest) returns (AuthResponse);
+
+  rpc ListAllUsers (ListAllUsersRequest) returns (UsersListResponse);
+  rpc ListAdmins (ListAdminsRequest) returns (UsersListResponse);
+  rpc ListBannedUsers (ListBannedUsersRequest) returns (UsersListResponse);
+
+  rpc ListAllUserInfos (UserIdRequest) returns (UserResponse);
+  rpc ListUserInfosForProfile (UserIdRequest) returns (UserProfileResponse);
+
+  rpc EditUserInfos (EditUserInfosRequest) returns (UserResponse);
+  rpc EditUserPassword (EditUserPasswordRequest) returns (SimpleResponse);
+
+  rpc ForgetPasswordProcess (ForgetPasswordRequest) returns (SimpleResponse);
+  rpc ResetPasswordProcess (ResetPasswordRequest) returns (SimpleResponse);
+
+  rpc BanUser (UserIdRequest) returns (UserResponse);
+  rpc UnbanUser (UserIdRequest) returns (UserResponse);
+
+}
+
+message UserMessage {
+  string user_id = 1;
+  string email = 2;
+  string phone_number = 3;
+  string CIN = 4;
+  string first_name = 5;
+  string last_name = 6;
+  string birth_date = 7;
+  string profile_pic_url = 8;
+  string adress = 9;
+  string city = 10;
+  bool is_admin = 11;
+  string banned_at = 12;
+  string deleted_at = 13;
+  string edited_at = 14;
+  string created_at = 15;
+}
+
+message SignupRequest {
+  string email = 1;
+  string password = 2;
+  string phone_number = 3;
+  string CIN = 4;
+  string first_name = 5;
+  string last_name = 6;
+  string birth_date = 7;
+  string profile_pic_url = 8;
+  string adress = 9;
+  string city = 10;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message AuthResponse {
+  bool ok = 1;
+  string message = 2;
+  string access_token = 3;
+  UserMessage user = 4;
+}
+
+message ListAllUsersRequest {}
+message ListAdminsRequest {}
+message ListBannedUsersRequest {}
+
+message UsersListResponse {
+  bool ok = 1;
+  string message = 2;
+  repeated UserMessage users = 3;
+}
+
+
+message UserIdRequest {
+  string user_id = 1;
+}
+
+message UserResponse {
+  bool ok = 1;
+  string message = 2;
+  UserMessage user = 3;
+}
+
+message UserProfileResponse {
+  bool ok = 1;
+  string message = 2;
+  string user_id = 3;
+  string first_name = 4;
+  string last_name = 5;
+  string profile_pic_url = 6;
+  string city = 7;
+  bool is_admin = 8;
+}
+
+message EditUserInfosRequest {
+  string user_id = 1;
+  string phone_number = 2;
+  string CIN = 3;
+  string first_name = 4;
+  string last_name = 5;
+  string birth_date = 6;
+  string profile_pic_url = 7;
+  string adress = 8;
+  string city = 9;
+}
+
+message EditUserPasswordRequest {
+  string user_id = 1;
+  string old_password = 2;
+  string new_password = 3;
+}
+
+message ForgetPasswordRequest {
+  string email = 1;
+}
+
+message ResetPasswordRequest {
+  string token = 1;
+  string new_password = 2;
+}
+
+message SimpleResponse {
+  bool ok = 1;
+  string message = 2;
+}

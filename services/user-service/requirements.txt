@@ -1,0 +1,13 @@
+Django==6.0
+asgiref==3.11.0
+bcrypt==5.0.0
+grpcio==1.76.0
+grpcio-tools==1.76.0
+protobuf==6.33.2
+PyJWT==2.10.1
+passlib==1.7.4
+python-dotenv==1.2.1
+psycopg2-binary==2.9.11
+sqlparse==0.5.5
+typing-extensions==4.15.0
+tzdata==2025.3
