@@ -1,0 +1,170 @@
+syntax = "proto3";
+package admin;
+
+service AdminService {
+  rpc BanUser (BanUserRequest) returns (ActionResponse);
+  rpc SetHouseRating (SetHouseRatingRequest) returns (ActionResponse);
+  rpc GetAdminOverview (AdminOverviewRequest) returns (AdminOverviewResponse);
+
+  rpc ListHouses (ListHousesRequest) returns (ListHousesResponse);
+  rpc GetHouseDetails (GetHouseDetailsRequest) returns (HouseDetailsResponse);
+  rpc SetHouseStatus (SetHouseStatusRequest) returns (ActionResponse);
+  rpc DeleteHouse (DeleteHouseRequest) returns (ActionResponse);
+
+  rpc ListReports (ListReportsRequest) returns (ListReportsResponse);
+  rpc GetReportDetails (GetReportDetailsRequest) returns (ReportDetailsResponse);
+  rpc ResolveReport (ResolveReportRequest) returns (ActionResponse);
+}
+
+message ActionResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message AdminOverviewRequest {
+  int32 recent_limit = 1;
+}
+
+message RecentEvent {
+  string type = 1;     // "BAN_LOG" | "RATING_LOG"
+  string id = 2;       // UUID
+  string message = 3;
+  string created_at = 4;
+}
+
+message AdminOverviewResponse {
+  int64 total_users = 1;
+  int64 total_houses = 2;
+  int64 total_banned_users = 3;
+
+  int64 total_ban_logs = 4;
+  int64 total_rating_logs = 5;
+
+  repeated RecentEvent recent_events = 6;
+}
+
+message BanUserRequest {
+  string user_id = 1;   // UUID
+  string admin_id = 2;  // UUID
+  bool ban = 3;
+  string reason = 4;
+}
+
+message SetHouseRatingRequest {
+  string house_id = 1;  // UUID
+  string admin_id = 2;  // UUID
+  int32 rating = 3;     // 1..5
+}
+
+/* =======================
+   HOUSES (SANS PAGINATION)
+   ======================= */
+
+message ListHousesRequest {
+  string status = 1;
+  string city = 2;
+  int32 min_rooms = 3;
+  int32 max_rooms = 4;
+
+  double min_price = 5;
+  double max_price = 6;
+
+  string search = 7;
+  string order_by = 8; // newest/oldest/price_asc/price_desc/rooms_desc
+}
+
+message HouseItem {
+  string id = 1;        // UUID
+  string title = 2;
+  string location = 3;
+  string city = 4;
+  string status = 5;
+
+  double price_per_room = 6;
+  int32 total_rooms = 7;
+  int32 occupied_rooms = 8;
+
+  string owner_id = 9;  // UUID
+  string created_at = 10;
+
+  string cover_image_url = 11;
+  int32 rating = 12;
+}
+
+message ListHousesResponse {
+  repeated HouseItem houses = 1;
+}
+
+message GetHouseDetailsRequest {
+  string house_id = 1; // UUID
+}
+
+message HouseDetailsResponse {
+  bool found = 1;
+  HouseItem house = 2;
+  repeated string image_urls = 3;
+  string description = 4;
+}
+message SetHouseStatusRequest {
+  string house_id = 1;  // UUID
+  string admin_id = 2;  // UUID
+  string status = 3;    // available | unavailable | archived
+  string reason = 4;    // optional
+}
+message DeleteHouseRequest {
+  string house_id = 1;  // UUID
+  string admin_id = 2;  // UUID
+  string reason = 3;    // optional
+}
+
+/* =======================
+   REPORTS (SANS PAGINATION)
+   ======================= */
+
+message ReportItem {
+  string id = 1;          // UUID
+  string status = 2;      // open/reviewed/dismissed
+  string reason = 3;
+  string details = 4;
+  string created_at = 5;
+  string reporter_id = 6; // UUID
+  string house_id = 7;    // UUID
+}
+
+message ListReportsRequest {
+  string status = 1;
+  string reason = 2;
+
+  string house_id = 3;
+  string reporter_id = 4;
+
+  string search = 5;   // details/reason
+  string order_by = 6; // newest/oldest/status
+  int32 page_size = 7;     // ex: 10
+  string page_token = 8;
+}
+
+message ListReportsResponse {
+  repeated ReportItem reports = 1;
+  string next_page_token = 2; 
+}
+
+message GetReportDetailsRequest {
+  string report_id = 1; // UUID
+}
+
+message ReportDetailsResponse {
+  bool found = 1;
+  ReportItem report = 2;
+
+  // enrichissement possible
+  HouseItem house = 3;
+  repeated string image_urls = 4;
+  string description = 5;
+}
+
+message ResolveReportRequest {
+  string report_id = 1; // UUID
+  string admin_id = 2;  // UUID
+  string status = 3;    // reviewed | dismissed
+}

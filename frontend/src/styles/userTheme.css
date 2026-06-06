@@ -1,0 +1,23 @@
+.userScope {
+  /* Base (enterprise, soft) */
+  --bg: #f6f8fb;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --muted: #475569;
+
+  /* Brand accents */
+  --navy: #0b1f3a;
+  --navy-2: #123a63;
+  --green: #2fbf71;
+  --green-2: #22a15f;
+
+  /* Radii & spacing */
+  --r-lg: 16px;
+  --r-md: 12px;
+  --gap: 14px;
+
+  /* Shadow */
+  --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
