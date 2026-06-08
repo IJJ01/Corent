@@ -3,8 +3,8 @@ import grpc
 
 from .settings import GRPC_HOST, GRPC_PORT
 from .init_db import init_db
-from .grpc_server import NotificationService
-from .generated import notification_pb2_grpc
+from grpc.servicers.notification_servicer import NotificationService
+from shared.generated import notification_pb2_grpc
 
 
 def serve():
