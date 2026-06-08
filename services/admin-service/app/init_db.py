@@ -12,7 +12,7 @@ sys.path.append(parent_dir)
 # -----------------------------------------------------------
 
 # 1. Configuration de Django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'confing.settings')
 django.setup()
 
 # 2. Import des modèles

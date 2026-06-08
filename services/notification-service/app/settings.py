@@ -3,10 +3,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-GRPC_HOST = os.getenv("GRPC_HOST", "0.0.0.0")
-GRPC_PORT = int(os.getenv("GRPC_PORT", "50056"))
+GRPC_HOST = os.getenv("GRPC_HOST")
+GRPC_PORT = int(os.getenv("GRPC_PORT"))
 
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql+psycopg2://postgres:ijj@123@localhost:5432/notification_service_db",
-)
+DB_NAME = os.getenv("DB_NAME")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_HOST = os.getenv("DB_HOST")
+DB_PORT = os.getenv("DB_PORT")
+
+DATABASE_URL = f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"

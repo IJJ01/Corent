@@ -1,0 +1,6 @@
+Django
+psycopg2-binary
+python-dotenv
+grpcio
+grpcio-tools
+protobuf
