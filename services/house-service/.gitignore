@@ -1,0 +1,82 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# =========================
+# Virtual environments
+# =========================
+venv/
+.venv/
+env/
+ENV/
+
+# =========================
+# Environment variables
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Django
+# =========================
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Django static / media (if ever used)
+staticfiles/
+media/
+
+# =========================
+# gRPC / Protobuf
+# =========================
+# If you want to IGNORE generated files, uncomment these:
+# *_pb2.py
+# *_pb2_grpc.py
+
+# Otherwise (recommended): keep generated gRPC files committed
+
+# =========================
+# FastAPI / Uvicorn
+# =========================
+*.pid
+
+# =========================
+# OS / Editor junk
+# =========================
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+!.vscode/extensions.json
+
+# PyCharm
+.idea/
+
+# =========================
+# Node / React (future)
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =========================
+# Coverage / testing
+# =========================
+.coverage
+htmlcov/
+.pytest_cache/
+
+# =========================
+# Build artifacts
+# =========================
+build/
+dist/
+*.egg-info/
