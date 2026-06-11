@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import admin_service_pb2 as admin__service__pb2
+from shared.generated import admin_service_pb2 as admin__service__pb2
 
 
 class AdminServiceStub(object):

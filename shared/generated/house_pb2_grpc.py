@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import house_pb2 as house__pb2
+from shared.generated import house_pb2 as house__pb2
 
 
 class HouseServiceStub(object):
