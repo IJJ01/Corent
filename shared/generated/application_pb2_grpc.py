@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import application_pb2 as application__pb2
+from shared.generated import application_pb2 as application__pb2
 
 
 class AppServiceStub(object):
