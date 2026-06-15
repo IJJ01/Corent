@@ -1,2 +1,2 @@
-# Corent-
-Cornt platform, microservices based web app 
+# Corent
+Co-rent platform, microservices based web app 
