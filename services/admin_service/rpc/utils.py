@@ -1,4 +1,4 @@
-from django.utils import timezone
+from datetime import timezone
 import grpc
 
 from admin_backend.admin_service.models import User

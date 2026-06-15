@@ -14,6 +14,10 @@ from app.routes.admin_reports import router as admin_reports_router
 from app.routes.admin import router as admin_router
 from app.routes.notifications import router as notifications_router
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup: create reusable gRPC clients

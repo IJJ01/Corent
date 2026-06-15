@@ -2,7 +2,7 @@ import os
 import sys
 import django
 import random
-from django.utils import timezone
+from datetime import timezone
 
 # --- CORRECTION DU CHEMIN (Le "Hack" pour que ça marche) ---
 # Cela permet au script de trouver le dossier 'core' même s'il est mal placé
@@ -16,7 +16,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'confing.settings')
 django.setup()
 
 # 2. Import des modèles
-from admin_service.models import UserAdminView, House, Listing, HouseReview, PhoneNumber
+from services.admin_service.app.models import UserAdminView, House, Listing, HouseReview, PhoneNumber
 
 # Dictionnaire pour la logique Rating
 CAT_LOGIC = {

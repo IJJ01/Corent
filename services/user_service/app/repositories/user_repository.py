@@ -1,4 +1,4 @@
-from django.utils import timezone
+from datetime import timezone
 from app.models import User
 
 

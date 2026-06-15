@@ -44,7 +44,7 @@ class House(models.Model):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                check=Q(occupied_rooms__lte=F("total_rooms")),
+                condition=Q(occupied_rooms__lte=F("total_rooms")),
                 name="occupied_lte_total",
             )
         ]
