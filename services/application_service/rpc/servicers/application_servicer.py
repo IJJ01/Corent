@@ -1,7 +1,7 @@
 import grpc
 import uuid
 from django.db import transaction
-from django.utils import timezone
+from datetime import timezone as dt_timezone
 from google.protobuf.timestamp_pb2 import Timestamp
 import os
 
@@ -10,15 +10,15 @@ from shared.generated import (application_pb2, application_pb2_grpc,
 
 
 from app.models import RentRequest, ListingReport
-
+from django.utils.timezone import is_aware
 
 def _to_timestamp(dt):
     ts = Timestamp()
     if dt is None:
         return ts
     # Django typically returns aware datetimes if USE_TZ=True
-    if timezone.is_aware(dt):
-        ts.FromDatetime(dt.astimezone(timezone.utc))
+    if is_aware(dt):
+        ts.FromDatetime(dt.astimezone(dt_timezone.utc))
     else:
         ts.FromDatetime(dt)
     return ts

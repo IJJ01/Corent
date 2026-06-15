@@ -1,7 +1,7 @@
 import random
 import uuid
 from django.core.management.base import BaseCommand
-from django.utils import timezone
+from datetime import timezone as dt_timezone
 
 from app.models import RentRequest, ListingReport
 
@@ -142,7 +142,7 @@ class Command(BaseCommand):
                     # (We keep it defensive so it won't crash if fields don't exist.)
                     if status in ("reviewed", "dismissed"):
                         if hasattr(report, "reviewed_at"):
-                            report.reviewed_at = timezone.now()
+                            report.reviewed_at = dt_timezone.now()
                         if hasattr(report, "reviewed_by_admin_id"):
                             report.reviewed_by_admin_id = uuid.uuid4()
                         report.save()

@@ -1,10 +1,15 @@
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
 import grpc
 
 from app.config import settings
 
 from shared.generated import (admin_service_pb2_grpc,
                               application_pb2_grpc,
-                              house_pb2_grpc, user_pb2_grpc)
+                              house_pb2_grpc, user_pb2_grpc,
+                              notification_pb2_grpc)
 
 
 class GrpcClients:
