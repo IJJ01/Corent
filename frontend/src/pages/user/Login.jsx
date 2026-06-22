@@ -24,15 +24,11 @@ export default function Login() {
       const out = await apiPost("/auth/login", { email, password });
       const data = out?.data;
 
-      // 🚨 Validate backend response
-
-      // 1️⃣ persist auth data
       localStorage.setItem("access_token", data.access_token);
       localStorage.setItem("user_id", data.user.user_id);
       localStorage.setItem("user", JSON.stringify(data.user));
       localStorage.setItem("is_admin", data.user.is_admin ? "1" : "0");
-
-      // 2️⃣ update auth context (THIS WAS MISSING)
+      
       login({
         token: data.access_token,
         user: data.user,
