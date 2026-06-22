@@ -1,3 +1,7 @@
+/* =============================================
+   RESET & BASE
+   ============================================= */
+
 html,
 body {
   margin: 0;
@@ -5,18 +9,13 @@ body {
   height: 100%;
   background: #f6f7fb;
 }
+
 * {
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
 }
 
-html,
 body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
   font-family: "Montserrat", sans-serif;
   color: var(--text);
   background: linear-gradient(180deg, var(--bg), #ffffff);
@@ -27,13 +26,20 @@ a {
   text-decoration: none;
 }
 
+/* =============================================
+   LAYOUT
+   ============================================= */
+
 .container {
   max-width: 1100px;
   margin: 0 auto;
   padding: 36px 18px;
 }
 
-/* Main card */
+/* =============================================
+   MAIN SHELL CARD
+   ============================================= */
+
 .shell {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -42,7 +48,10 @@ a {
   padding: 28px;
 }
 
-/* Top bar */
+/* =============================================
+   TOP BAR
+   ============================================= */
+
 .topbar {
   display: flex;
   align-items: center;
@@ -69,7 +78,10 @@ a {
   letter-spacing: -0.01em;
 }
 
-/* Hero */
+/* =============================================
+   HERO
+   ============================================= */
+
 .hero {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
@@ -109,30 +121,79 @@ a {
   margin-top: 10px;
 }
 
-/* CTA buttons */
-.ctaRow {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 16px;
+.heroLeft {
+  display: grid;
+  gap: 20px;
+  align-content: start;
 }
 
-.btn {
+.heroText {
+  display: grid;
+  gap: 15px;
+  max-width: 56ch;
+}
+
+.heroCtas {
   margin-top: 6px;
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  background: #1abc9c;
-  font-weight: 600;
-  cursor: pointer;
+}
+
+.heroMeta {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+/* =============================================
+   BUTTONS (base + variants)
+   ============================================= */
+
+.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
   transition:
-    transform 120ms ease,
     background 120ms ease,
     border-color 120ms ease,
-    color 120ms ease;
+    color 120ms ease,
+    transform 120ms ease;
+}
+
+.btn--solid {
+  background: #1abc9c;
+  color: #fff;
+  border: none;
+  width: 100%;
+}
+
+.btn--solid:hover {
+  background: #16a085;
+}
+
+.btn--solid:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn--ghost {
+  background: none;
+  border: 1px solid #ddd;
+  color: #555;
+  padding: 12px 20px;
+}
+
+.btn--ghost:hover {
+  border-color: #1abc9c;
+  color: #1abc9c;
+  background: rgba(224, 224, 224, 0.36);
 }
 
 .btn--primary {
@@ -165,7 +226,21 @@ a {
   background: var(--green-2);
 }
 
-/* Cards */
+/* =============================================
+   CTA ROW
+   ============================================= */
+
+.ctaRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+/* =============================================
+   CARDS
+   ============================================= */
+
 .cardCol {
   display: grid;
   gap: 12px;
@@ -197,7 +272,23 @@ a {
   background: var(--green);
 }
 
-/* Sections */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 2px solid var(--border);
+  background: var(--surface-2);
+  color: var(--navy);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+/* =============================================
+   SECTIONS
+   ============================================= */
+
 .section {
   margin-top: 18px;
   padding-top: 18px;
@@ -210,7 +301,10 @@ a {
   font-size: 13px;
 }
 
-/* Image stack for landing */
+/* =============================================
+   IMAGE COMPONENTS
+   ============================================= */
+
 .imageStack {
   display: grid;
   gap: 12px;
@@ -236,7 +330,10 @@ a {
   }
 }
 
-/* Audience blocks */
+/* =============================================
+   AUDIENCE SECTION
+   ============================================= */
+
 .audienceGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -297,7 +394,10 @@ a {
   font-size: 15px;
 }
 
-/* Trust section */
+/* =============================================
+   TRUST SECTION
+   ============================================= */
+
 .trustGrid {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
@@ -329,40 +429,6 @@ a {
   font-weight: 900;
 }
 
-.trustMedia {
-  display: grid;
-  gap: 12px;
-}
-
-.trustImage {
-  overflow: hidden;
-  border-radius: var(--r-md);
-  border: 1px solid var(--border);
-  background: #fff;
-}
-
-.trustImage img {
-  width: 100%;
-  height: 168px;
-  object-fit: cover;
-  display: block;
-}
-
-/* Trust section icons + 3 images */
-.iconCircle {
-  width: 34px;
-  height: 34px;
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(11, 31, 58, 0.08);
-  /* navy tint */
-  border: 1px solid rgba(11, 31, 58, 0.14);
-  margin-right: 10px;
-  flex: 0 0 auto;
-}
-
 .trustHeaderRow {
   display: flex;
   align-items: center;
@@ -378,10 +444,11 @@ a {
   grid-template-columns: 1fr;
 }
 
-@media (max-width: 900px) {
-  .trustMedia3 {
-    grid-template-columns: 1fr;
-  }
+.trustImage {
+  overflow: hidden;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  background: #fff;
 }
 
 .trustImage img {
@@ -391,49 +458,26 @@ a {
   display: block;
 }
 
-/* Hero organization (no copy change) */
-.heroLeft {
-  display: grid;
-  gap: 20px;
-  align-content: start;
-}
-
-.heroText {
-  display: grid;
-  gap: 15px;
-  max-width: 56ch;
-  /* keeps lines readable */
-}
-
-.heroCtas {
-  margin-top: 6px;
-}
-
-.heroMeta {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  margin-top: 6px;
-}
-
-.pill {
+.iconCircle {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 10px;
-  border-radius: 999px;
-  border: 2px solid var(--border);
-  background: var(--surface-2);
-  color: var(--navy);
-  font-weight: 700;
-  font-size: 12px;
+  justify-content: center;
+  background: rgba(11, 31, 58, 0.08);
+  border: 1px solid rgba(11, 31, 58, 0.14);
+  margin-right: 10px;
+  flex: 0 0 auto;
 }
 
-/* Dark footer (always dark) */
+/* =============================================
+   FOOTER
+   ============================================= */
+
 .footerDark {
   margin-top: 26px;
   background: #071427;
-  /* deep navy */
   color: rgba(255, 255, 255, 0.92);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -522,10 +566,10 @@ a {
   margin: 0 auto;
 }
 
-/* Auth pages (Login/Signup) — shared enterprise layout */
-/* GLOBAL RESET */
+/* =============================================
+   AUTH PAGES — shared base
+   ============================================= */
 
-/* FULL PAGE CENTERING */
 .authPage {
   min-height: 100vh;
   display: flex;
@@ -534,15 +578,12 @@ a {
   padding: 24px;
 }
 
-/* LOGIN CARD */
-
 .authCard {
-display: flex;
-flex-direction: column;
-gap: 2rem;
-justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
   width: 100%;
-  max-width: 420px;
+  max-width: 480px;
   background: #fff;
   border: 1px solid #e6e6e6;
   border-radius: 16px;
@@ -550,19 +591,36 @@ justify-content: space-between;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
 }
 
-/* TYPOGRAPHY */
-.authTitle {
-  text-align: center;
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: 700;
-}
+/* =============================================
+   AUTH TYPOGRAPHY
+   ============================================= */
+
 .logo {
   color: #1abc9c;
   font-weight: 800;
   margin: 0;
   text-align: center;
+
 }
+
+.authTitle {
+  text-align: center;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000;
+}
+
+.textSection {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+
+
+/* Base authSubtitle — used on login page as flex row */
 .authSubtitle {
   display: flex;
   gap: 6px;
@@ -573,15 +631,26 @@ justify-content: space-between;
   font-size: 14px;
 }
 
-/* FORM */
+.authSubtitle a {
+  color: #1abc9c;
+  font-weight: 600;
+}
+
+.authSubtitle a:hover {
+  text-decoration: underline;
+}
+
+.authSubtitle .fa-arrow-right {
+  color: #1abc9c;
+}
+
+/* =============================================
+   AUTH FORM (login)
+   ============================================= */
+
 .authForm {
   display: grid;
   gap: 14px;
-}
-
-.field {
-  display: grid;
-  gap: 6px;
 }
 
 label {
@@ -596,68 +665,37 @@ input {
   border: 1px solid #ddd;
   outline: none;
   font-size: 14px;
-  transition: 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 input:focus {
-  border-color: #1a1a1a;
-  box-shadow: 0 0 0 3px rgba(11, 31, 58, 0.1);
+  border-color: #1abc9c;
+  box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.12);
 }
+
+input[type="password"]::placeholder {
+  font-weight: 600;
+  letter-spacing: 0.115em;
+}
+
+/* OR divider */
 .divider {
   display: flex;
   align-items: center;
   gap: 12px;
 }
-.authSubtitle a {
-  color: #1abc9c;
-}
-
-.authSubtitle .fa-arrow-right {
-  color: #1abc9c;
-}
-.authSubtitle a:hover {
-  text-decoration: underline;
-}
 
 .divider::before,
 .divider::after {
   content: "";
-  flex: 1; /* each line grows to fill remaining space */
+  flex: 1;
   height: 1px;
   background: #e0e0e0;
 }
 
-.btn--solid {
-  background: #1abc9c;
-  color: white;
-  border: none;
-}
-
-.btn--ghost {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  background: none;
-  border: 1px solid;
-  color: 333;
-}
-
-.btn:hover {
-  background: #16a085;
-}
-
-.btn--ghost:hover {
-  background: #e0e0e05b;
-  border: 1px solid #1abc9c;
-  color: #1abc9c;
-}
-
-.btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* LINKS */
+/* Auth links row (login page) */
 .authLinks {
   display: flex;
   justify-content: space-between;
@@ -674,7 +712,10 @@ input:focus {
   text-decoration: underline;
 }
 
-/* MESSAGES */
+/* =============================================
+   FEEDBACK MESSAGES
+   ============================================= */
+
 .error {
   background: #ffe8e8;
   color: #b00020;
@@ -691,7 +732,138 @@ input:focus {
   font-size: 13px;
 }
 
-/* MOBILE */
+/* =============================================
+   SIGNUP — multi-step form
+   ============================================= */
+
+.formGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.signupCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 540px;
+}
+
+/* Step dot indicator */
+.stepIndicator {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.stepDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #e0e0e0;
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease;
+}
+
+.stepDot--active {
+  background: #1abc9c;
+  transform: scale(1.25);
+}
+
+.stepDot--done {
+  background: #a8e6d9;
+}
+
+/* Step label — scoped to signup to avoid fighting login's authSubtitle */
+.signupCard .authSubtitle {
+  display: block;
+  text-align: center;
+  color: #888;
+  font-size: 13px;
+  margin: 0;
+}
+
+/* Fields per step */
+.stepFields {
+  display: grid;
+  gap: 14px;
+}
+
+/* Two-column row inside steps */
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.formRow > .field {
+  min-width: 0;
+}
+
+/* Field wrapper — single source of truth */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Inputs inside signup use .input class */
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  outline: none;
+  font-size: 14px;
+  font-family: "Montserrat", sans-serif;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  border-color: #1abc9c;
+  box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.12);
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #000;
+}
+
+/* Step nav buttons */
+.stepActions {
+  display: flex;
+  gap: 10px;
+}
+
+.stepNext {
+  flex: 1;
+}
+
+/* Already have account / help row */
+.helpRow {
+  text-align: center;
+  font-size: 13px;
+  color: #888;
+}
+
+.helpRow span {
+  color: #1abc9c;
+  font-weight: 600;
+}
+
+.helpRow:hover span {
+  text-decoration: underline;
+}
+
+/* =============================================
+   MOBILE
+   ============================================= */
+
 @media (max-width: 480px) {
   .authCard {
     padding: 20px;
@@ -703,11 +875,19 @@ input:focus {
     gap: 6px;
     align-items: center;
   }
+
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+
+  .signupCard {
+    padding: 20px;
+  }
 }
 
-/* =========================
-   Profile Dashboard (like screenshot)
-   ========================= */
+/* =============================================
+   PROFILE DASHBOARD
+   ============================================= */
 
 .profilePage {
   min-height: 100vh;
@@ -738,7 +918,6 @@ input:focus {
   }
 }
 
-/* Sidebar */
 .profileSidebar {
   background: #f3f7ff;
   border-right: 1px solid rgba(15, 23, 42, 0.08);
@@ -796,7 +975,6 @@ input:focus {
   }
 }
 
-/* Main */
 .profileMain {
   padding: 22px 22px 26px;
 }
@@ -833,11 +1011,6 @@ input:focus {
   gap: 10px;
   align-items: center;
   justify-content: flex-end;
-}
-
-input[type="password"]::placeholder {
-  font-weight: 600;
-  letter-spacing: 0.115em;
 }
 
 @media (max-width: 1100px) {
@@ -886,7 +1059,6 @@ input[type="password"]::placeholder {
   border: 1px solid rgba(15, 23, 42, 0.1);
 }
 
-/* Banner strip */
 .profileBanner {
   height: 72px;
   border-radius: 16px;
@@ -899,7 +1071,6 @@ input[type="password"]::placeholder {
   margin-bottom: 14px;
 }
 
-/* Inner card */
 .profileCard {
   background: #fff;
   border: 1px solid rgba(15, 23, 42, 0.08);
@@ -974,11 +1145,6 @@ input[type="password"]::placeholder {
   }
 }
 
-.field {
-  display: grid;
-  gap: 6px;
-}
-
 .fieldLabel {
   font-size: 12px;
   font-weight: 800;
@@ -1037,6 +1203,10 @@ input[type="password"]::placeholder {
   margin-top: 10px;
 }
 
+/* =============================================
+   MODAL
+   ============================================= */
+
 .modalOverlay {
   position: fixed;
   inset: 0;
@@ -1077,16 +1247,4 @@ input[type="password"]::placeholder {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-}
-/* ===== Force titles to black ===== */
-.authTitle {
-  color: #000 !important;
-}
-
-.label {
-  color: #000 !important;
-}
-
-.authRightText h3 {
-  color: #000 !important;
 }
