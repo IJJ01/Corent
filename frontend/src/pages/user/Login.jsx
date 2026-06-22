@@ -25,7 +25,6 @@ export default function Login() {
       const data = out?.data;
 
       // 🚨 Validate backend response
-      
 
       // 1️⃣ persist auth data
       localStorage.setItem("access_token", data.access_token);
@@ -49,119 +48,86 @@ export default function Login() {
         nav(redirectTo, { replace: true });
       }
     } catch (err) {
-  console.error("LOGIN ERROR:", err);
+      console.error("LOGIN ERROR:", err);
 
-  const msgFromApi =
-    err?.response?.data?.message ||
-    err?.response?.data?.detail ||
-    "Login failed. Please try again.";
+      const msgFromApi =
+        err?.response?.data?.message ||
+        err?.response?.data?.detail ||
+        "Login failed. Please try again.";
 
-  setMsg({
-    type: "err",
-    text: msgFromApi,
-  });
+      setMsg({
+        type: "err",
+        text: msgFromApi,
+      });
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="authWrap">
-      <div className="authShell">
-        <div className="authGrid">
-          {/* Left */}
-          <div className="authLeft">
-            <div className="authTop">
-              <div className="authBrand">
-                <div className="authMark" />
-                <div style={{ fontWeight: 900 }}>CoRent</div>
-              </div>
-              <Link to="/" className="linkMuted">Back to home</Link>
+    <div className="authPage">
+      <div className="authCard">
+        <h1 className="logo">CoRent</h1>
+        <div className="textSection">
+        <h1 className="authTitle">Welcome back</h1>
+        <p className="authSubtitle">
+          New to CoRent?
+          <span>
+            <Link to="/signup">Create an account</Link>
+          </span>
+        </p>
+       </div>
+        <form onSubmit={handleSubmit} className="authForm">
+          {msg && (
+            <div className={msg.type === "err" ? "error" : "success"}>
+              {msg.text}
             </div>
-
-            <div>
-              <h1 className="authTitle">Sign in to CoRent</h1>
-              <p className="authSubtitle">
-                Access your shared living space with a secure, professional login.
-              </p>
-            </div>
-
-            <div className="authCard">
-              <form onSubmit={handleSubmit} className="formGrid">
-                {msg?.type === "ok" && <div className="notice">{msg.text}</div>}
-                {msg?.type === "err" && <div className="error">{msg.text}</div>}
-
-                <div>
-                  <label className="label">Email</label>
-                  <input
-                    className="input"
-                    type="email"
-                    placeholder="name@email.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="label">Password</label>
-                  <input
-                    className="input"
-                    type="password"
-                    placeholder="Your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                </div>
-
-                <div className="authActions">
-                  <button className="btn btn--primary" type="submit" disabled={loading}>
-                    {loading ? "Signing in..." : "Sign in"}
-                  </button>
-
-                  {import.meta.env.VITE_USE_MOCK === "true" && (
-                    <button
-                      type="button"
-                      className="btn"
-                      style={{ marginTop: 12 }}
-                      onClick={() => {
-                        loginMock({ userId: "u1", token: "mock-token" });
-                        nav("/my-listings", { replace: true });
-                      }}
-                    >
-                      Dev Login (Mock User)
-                    </button>
-                  )}
-
-                  <div className="helpRow">
-                    <Link to="/signup" className="linkMuted">
-                      Create an account
-                    </Link>
-                    <Link to="/reset-password" className="linkMuted">
-                      Forgot your password?
-                    </Link>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-
-          {/* Right */}
-          <div className="authRight">
-            <img
-              src="https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&w=1600&q=80"
-              alt="Modern apartment living"
+          )}
+          <div className="field">
+            <label>Email</label>
+            <input
+              type="email"
+              placeholder="name@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
-            <div className="authOverlay" />
-            <div className="authRightText">
-              <h3>Trusted shared living</h3>
-              <p>
-                Designed for clarity and reliability between tenants and owners — from discovery to application.
-              </p>
-            </div>
           </div>
-        </div>
+
+          <div className="field">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <label>Password</label>
+              <div className="authLinks">
+            <Link to="/reset-password">Forgot password?</Link>
+          </div>
+            </div>
+            <input
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <button className="btn btn--solid" disabled={loading}>
+            {loading ? "Signing in..." : "Sign in"}
+          </button>
+          <div className="divider">
+            <span>or</span>
+          </div>
+
+          <button className="btn btn--ghost">
+            <i class="fa-brands fa-google"></i>
+            <span>Continue with Google</span>
+          </button>
+        </form>
       </div>
     </div>
   );

@@ -313,7 +313,7 @@ def get_house(
     return {"house": _house_to_dict(h)}
 
 
-@router.post("")
+@router.post("/create")
 def create_house(
     payload: CreateHouseIn,
     user_id: str = Depends(get_current_user_id),
