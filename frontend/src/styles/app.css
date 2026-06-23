@@ -3,7 +3,9 @@
    ============================================= */
 
 html,
-body {
+body,
+#root {
+  font-family: "Montserrat", sans-serif;
   margin: 0;
   padding: 0;
   height: 100%;
@@ -1247,4 +1249,14 @@ input[type="password"]::placeholder {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+}
+/*browse*/
+.housesWrap{
+    padding: 2rem;
+}
+.browse{
+    min-height: 100vh;
+}
+.filterWrapper{
+    padding: 0 2rem 0 2rem;
 }

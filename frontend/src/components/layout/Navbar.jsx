@@ -81,29 +81,13 @@ export default function Navbar() {
             sx={{ cursor: "pointer", userSelect: "none" }}
             onClick={() => navigate("/browse")}
           >
-            <Box
-              aria-hidden
-              sx={{
-                width: 32,
-                height: 32,
-                borderRadius: 10,
-                bgcolor: "primary.main",
-                boxShadow: (t) =>
-                  t.palette.mode === "dark"
-                    ? "0 10px 28px rgba(49,0,71,0.55)"
-                    : "0 10px 28px rgba(49,0,71,0.28)",
-              }}
-            />
-            <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: -0.4 }}>
-              Co-Rent
+            <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: -0.4, color: "#1abc9c", fontFamily:'"Montserrat", sans-serif'}}>
+              CoRent
             </Typography>
           </Stack>
 
           {/* Nav */}
           <Stack direction="row" spacing={0.75} sx={{ flex: 1, ml: 1 }}>
-            <Box component={NavLink} to="/browse" sx={navLinkSx}>
-              Browse
-            </Box>
 
             {isAuthed && (
               <>

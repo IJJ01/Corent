@@ -37,11 +37,12 @@ export default function HouseCard({ house }) {
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        borderRadius: 3,
+        borderRadius: 1.5,
         overflow: "hidden",
+        fontFamily:'"Montserrat", sans-serif',
+        minWidth: "250px",
         transition: "transform 140ms ease, box-shadow 140ms ease",
         "&:hover": {
-          transform: "translateY(-2px)",
           boxShadow: theme.shadows[3],
         },
       })}

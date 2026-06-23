@@ -3,6 +3,7 @@ import HouseCard from "./HouseCard";
 
 export default function HouseList({ houses }) {
   return (
+    <div className="housesWrap">
     <Grid container spacing={2}>
       {houses.map((h) => (
         <Grid
@@ -17,5 +18,6 @@ export default function HouseList({ houses }) {
         </Grid>
       ))}
     </Grid>
+    </div>
   );
 }
