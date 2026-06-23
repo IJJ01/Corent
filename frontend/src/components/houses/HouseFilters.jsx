@@ -9,6 +9,7 @@ export default function HouseFilters({ value, onChange }) {
   const v = value;
 
   return (
+    <div className="filterWrapper">
     <Paper
       sx={(theme) => ({
         p: { xs: 1.75, md: 2.25 },
@@ -70,5 +71,6 @@ export default function HouseFilters({ value, onChange }) {
         </TextField>
       </Stack>
     </Paper>
+    </div>
   );
 }

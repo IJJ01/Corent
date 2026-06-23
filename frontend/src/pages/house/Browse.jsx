@@ -129,12 +129,8 @@ export default function Browse() {
     });
 
   return (
+    <div className="browse">
     <Stack spacing={3}>
-      <PageHeader
-        title="Browse listings"
-        subtitle="Search by city, price, and rooms. Pick a place that fits your vibe."
-      />
-
       <ApiStatusBanner mode={mode} />
 
       <HouseFilters value={filters} onChange={setFilters} />
@@ -160,5 +156,6 @@ export default function Browse() {
         <HouseList houses={filtered} />
       )}
     </Stack>
+    </div>
   );
 }

@@ -4,7 +4,6 @@ import { BrowserRouter } from "react-router-dom";
 
 import { ColorModeProvider } from "./styles/ColorModeProvider";
 import { AuthProvider } from "./auth/AuthContext";
-
 import "./styles/userTheme.css";
 import "./styles/app.css";
 import "./styles/userFooter.css";
