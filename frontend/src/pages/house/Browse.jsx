@@ -1,12 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
 
-import PageHeader from "../../components/ui/PageHeader";
 import EmptyState from "../../components/ui/EmptyState";
 import HouseCardSkeleton from "../../components/ui/HouseCardSkeleton";
-
 import HouseList from "../../components/houses/HouseList";
 import HouseFilters from "../../components/houses/HouseFilters";
 import ApiStatusBanner from "../../components/common/ApiStatusBanner";
@@ -36,7 +31,7 @@ export default function Browse() {
 
   const [loading, setLoading] = useState(true);
   const [houses, setHouses] = useState(Array.isArray(MOCK_HOUSES) ? MOCK_HOUSES.filter(Boolean) : []);
-  const [mode, setMode] = useState("mock"); // "mock" | "api"
+  const [mode, setMode] = useState("mock");
 
   useEffect(() => {
     let cancelled = false;
@@ -46,7 +41,6 @@ export default function Browse() {
       try {
         const res = await apiGet("/houses");
         const list = normalizeHouseList(res?.data);
-
         const cleaned = Array.isArray(list) ? list.filter(Boolean) : [];
 
         if (!cancelled && cleaned.length > 0) {
@@ -67,16 +61,12 @@ export default function Browse() {
     }
 
     load();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, []);
 
   const filtered = useMemo(() => {
-    // ✅ Ensure we never pass null/undefined houses to HouseList/HouseCard
     let items = Array.isArray(houses) ? houses.filter(Boolean) : [];
 
-    // ✅ Hide my own listings from Browse
     if (userId) {
       items = items.filter((h) => String(h?.owner_id || "") !== String(userId));
     }
@@ -106,56 +96,40 @@ export default function Browse() {
       });
     }
 
-    // sort
     const sort = String(filters.sort || "newest");
     if (sort === "price_asc") {
       items.sort((a, b) => Number(a?.price_per_room || 0) - Number(b?.price_per_room || 0));
     } else if (sort === "price_desc") {
       items.sort((a, b) => Number(b?.price_per_room || 0) - Number(a?.price_per_room || 0));
-    } else {
-      // newest default: keep API/mock order (already newest-first in our mock)
     }
 
     return items;
   }, [filters, houses, userId]);
 
   const clearFilters = () =>
-    setFilters({
-      location: "",
-      minPrice: "",
-      maxPrice: "",
-      onlyAvailable: false,
-      sort: "newest",
-    });
+    setFilters({ location: "", minPrice: "", maxPrice: "", onlyAvailable: false, sort: "newest" });
 
   return (
     <div className="browse">
-    <Stack spacing={3}>
       <ApiStatusBanner mode={mode} />
-
       <HouseFilters value={filters} onChange={setFilters} />
 
       {loading ? (
-        <Grid container spacing={2}>
+        <div className="housesWrap">
           {Array.from({ length: 6 }).map((_, i) => (
-            <Grid key={i} item xs={12} sm={6} md={4}>
-              <HouseCardSkeleton />
-            </Grid>
+            <HouseCardSkeleton key={i} />
           ))}
-        </Grid>
+        </div>
       ) : filtered.length === 0 ? (
-        <Box>
-          <EmptyState
-            title="No listings found"
-            description="Try changing filters or clearing them."
-            actionLabel="Clear filters"
-            onAction={clearFilters}
-          />
-        </Box>
+        <EmptyState
+          title="No listings found"
+          description="Try changing filters or clearing them."
+          actionLabel="Clear filters"
+          onAction={clearFilters}
+        />
       ) : (
         <HouseList houses={filtered} />
       )}
-    </Stack>
     </div>
   );
 }

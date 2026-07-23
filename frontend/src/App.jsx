@@ -27,7 +27,6 @@ import MyListings from "./pages/house/MyListings";
 import SmokeTest from "./pages/SmokeTest";
 import OwnerApplications from "./pages/house/OwnerApplications";
 
-
 export default function App() {
   return (
     <Routes>
@@ -38,7 +37,6 @@ export default function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/__smoke" element={<SmokeTest />} />
-
 
         {/* protected user pages */}
         <Route
@@ -80,8 +78,15 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/owner/applications"
+          element={
+            <ProtectedRoute>
+              <OwnerApplications />
+            </ProtectedRoute>
+          }
+        />
       </Route>
-          <Route path="/owner/applications" element={<OwnerApplications />} />
 
       {/* ===================== ADMIN AREA ===================== */}
       <Route path="/admin" element={<AdminLayout />}>

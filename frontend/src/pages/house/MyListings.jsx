@@ -72,11 +72,11 @@ export default function MyListings() {
     theme.palette.mode === "light"
       ? `radial-gradient(1100px 420px at 20% 0%, ${alpha(
           theme.palette.primary.main,
-          0.08
+          0.08,
         )} 0%, transparent 60%)`
       : `radial-gradient(1100px 420px at 20% 0%, ${alpha(
           theme.palette.primary.main,
-          0.16
+          0.16,
         )} 0%, transparent 60%)`;
 
   const rows = useMemo(() => houses || [], [houses]);
@@ -89,7 +89,7 @@ export default function MyListings() {
           sx={{
             width: "100%",
             p: { xs: 2, md: 3 },
-            borderRadius: 4,
+            borderRadius: 2,
             backgroundImage: glow,
             backgroundColor:
               theme.palette.mode === "dark"
@@ -99,7 +99,7 @@ export default function MyListings() {
             border: "1px solid",
             borderColor: alpha(
               theme.palette.common.white,
-              theme.palette.mode === "dark" ? 0.1 : 0.18
+              theme.palette.mode === "dark" ? 0.1 : 0.18,
             ),
           }}
         >
@@ -112,27 +112,24 @@ export default function MyListings() {
             sx={{ mb: 2 }}
           >
             <Box>
-              <Typography variant="h4" sx={{ fontWeight: 950, lineHeight: 1.1 }}>
+              <Typography
+                variant="h4"
+                sx={{ fontWeight: 950, lineHeight: 1.1 }}
+              >
                 My Listings
               </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ mt: 0.5 }}
+              >
                 Manage your houses: edit details or delete a listing.
               </Typography>
             </Box>
 
-            <Button
-              variant="contained"
-              onClick={() => nav("/create")}
-              sx={{
-                borderRadius: 2,
-                textTransform: "none",
-                py: 1.2,
-                px: 2.2,
-                alignSelf: { xs: "flex-start", sm: "auto" },
-              }}
-            >
+            <button className="btn btn--solid" onClick={() => nav("/create")}>
               Create listing
-            </Button>
+            </button>
           </Stack>
 
           {!userId && (
@@ -156,15 +153,15 @@ export default function MyListings() {
             <Paper
               variant="outlined"
               sx={{
-                borderRadius: 3,
+                borderRadius: 1.5,
                 overflow: "hidden",
                 borderColor: alpha(
                   theme.palette.common.white,
-                  theme.palette.mode === "dark" ? 0.1 : 0.22
+                  theme.palette.mode === "dark" ? 0.1 : 0.22,
                 ),
                 backgroundColor: alpha(
                   theme.palette.common.black,
-                  theme.palette.mode === "dark" ? 0.18 : 0.02
+                  theme.palette.mode === "dark" ? 0.18 : 0.02,
                 ),
               }}
             >
@@ -182,7 +179,7 @@ export default function MyListings() {
                   alignItems: "center",
                   bgcolor: alpha(
                     theme.palette.common.black,
-                    theme.palette.mode === "dark" ? 0.25 : 0.04
+                    theme.palette.mode === "dark" ? 0.25 : 0.04,
                   ),
                 }}
               >
@@ -275,11 +272,11 @@ export default function MyListings() {
                               bgcolor: full
                                 ? alpha(
                                     theme.palette.text.primary,
-                                    theme.palette.mode === "dark" ? 0.12 : 0.08
+                                    theme.palette.mode === "dark" ? 0.12 : 0.08,
                                   )
                                 : alpha(
                                     theme.palette.success.main,
-                                    theme.palette.mode === "dark" ? 0.2 : 0.12
+                                    theme.palette.mode === "dark" ? 0.2 : 0.12,
                                   ),
                               color: full
                                 ? "text.secondary"
@@ -322,18 +319,15 @@ export default function MyListings() {
                         spacing={1}
                         justifyContent={{ xs: "flex-start", md: "flex-end" }}
                       >
-                        <Button
-                          variant="outlined"
-                          // ✅ FIX: route matches your router: /edit/:id
+                        <button
+                          className="btn btn--secondary"
                           onClick={() => nav(`/edit/${h.id}`)}
-                          sx={{ textTransform: "none", borderRadius: 2 }}
                         >
                           Edit
-                        </Button>
+                        </button>
 
-                        <Button
-                          variant="contained"
-                          color="error"
+                        <button
+                          className="btn btn--danger"
                           onClick={async () => {
                             if (!confirm("Delete this listing?")) return;
                             try {
@@ -341,13 +335,14 @@ export default function MyListings() {
                               await houseApi.remove(h.id);
                               await load();
                             } catch (e) {
-                              setError(e?.message || "Failed to delete listing");
+                              setError(
+                                e?.message || "Failed to delete listing",
+                              );
                             }
                           }}
-                          sx={{ textTransform: "none", borderRadius: 2 }}
                         >
                           Delete
-                        </Button>
+                        </button>
                       </Stack>
                     </Box>
                   );

@@ -1,76 +1,59 @@
-import TextField from "@mui/material/TextField";
-import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Stack from "@mui/material/Stack";
-import Paper from "@mui/material/Paper";
-
 export default function HouseFilters({ value, onChange }) {
   const v = value;
-
   return (
     <div className="filterWrapper">
-    <Paper
-      sx={(theme) => ({
-        p: { xs: 1.75, md: 2.25 },
-        borderRadius: 999,
-        bgcolor: theme.palette.mode === "dark" ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
-        border: "1px solid",
-        borderColor: theme.palette.divider,
-      })}
-    >
-      <Stack
-        direction={{ xs: "column", md: "row" }}
-        spacing={1.5}
-        alignItems={{ xs: "stretch", md: "center" }}
-      >
-        <TextField
-          label="City / Location"
+      <div className="filterBar">
+        <input
+          className="filterInput filterInput--grow"
+          type="text"
+          placeholder="City / Location"
           value={v.location}
           onChange={(e) => onChange({ ...v, location: e.target.value })}
-          fullWidth
         />
-
-        <TextField
-          label="Min price"
+        <input
+          className="filterInput filterInput--short"
           type="number"
+          placeholder="Min price"
           value={v.minPrice}
           onChange={(e) => onChange({ ...v, minPrice: e.target.value })}
-          sx={{ width: { xs: "100%", md: 170 } }}
         />
-
-        <TextField
-          label="Max price"
+        <input
+          className="filterInput filterInput--short"
           type="number"
+          placeholder="Max price"
           value={v.maxPrice}
           onChange={(e) => onChange({ ...v, maxPrice: e.target.value })}
-          sx={{ width: { xs: "100%", md: 170 } }}
         />
-
-        <FormControlLabel
-          sx={{ ml: { xs: 0, md: 1 } }}
-          control={
-            <Switch
-              checked={Boolean(v.onlyAvailable)}
-              onChange={(e) => onChange({ ...v, onlyAvailable: e.target.checked })}
+        <label className="filterToggle">
+          <input
+            type="checkbox"
+            checked={Boolean(v.onlyAvailable)}
+            onChange={(e) =>
+              onChange({ ...v, onlyAvailable: e.target.checked })
+            }
+          />
+          <span className="filterToggle__track">
+            <span
+              className="filterToggle__thumb"
+              style={{
+                transform: v.onlyAvailable
+                  ? "translateX(18px)"
+                  : "translateX(0)",
+              }}
             />
-          }
-          label="Only available"
-        />
-
-        <TextField
-          select
-          label="Sort"
+          </span>
+          <span className="filterToggle__label">Only available</span>
+        </label>
+        <select
+          className="filterInput filterInput--select"
           value={v.sort}
           onChange={(e) => onChange({ ...v, sort: e.target.value })}
-          sx={{ width: { xs: "100%", md: 160 } }}
         >
-          <MenuItem value="newest">Newest</MenuItem>
-          <MenuItem value="price_asc">Price ↑</MenuItem>
-          <MenuItem value="price_desc">Price ↓</MenuItem>
-        </TextField>
-      </Stack>
-    </Paper>
+          <option value="newest">Newest</option>
+          <option value="price_asc">Price ↑</option>
+          <option value="price_desc">Price ↓</option>
+        </select>
+      </div>
     </div>
   );
 }

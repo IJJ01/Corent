@@ -1,30 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
-import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
-import BedOutlinedIcon from "@mui/icons-material/BedOutlined";
-import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
-import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
-
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
-import Chip from "@mui/material/Chip";
-import Divider from "@mui/material/Divider";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
-import CircularProgress from "@mui/material/CircularProgress";
-
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import TextField from "@mui/material/TextField";
-
 import PageShell from "../../components/layout/PageShell";
 import HouseGallery from "../../components/houses/HouseGallery";
 import { houseApi } from "../../api/houseApi";
@@ -32,6 +8,8 @@ import { houseApi } from "../../api/houseApi";
 import { useAuth } from "../../auth/AuthContext";
 import { applicationApi } from "../../api/applicationApi";
 import { reportApi } from "../../api/reportApi";
+
+
 
 function formatMAD(amount) {
   return new Intl.NumberFormat("fr-MA").format(Number(amount || 0)) + " MAD";
@@ -44,45 +22,84 @@ function normalizeImages(images) {
   return [];
 }
 
-function StatCard({ icon, label, value }) {
+function IconPin(props) {
   return (
-    <Paper
-      variant="outlined"
-      sx={{
-        p: 1.5,
-        borderRadius: 2.5,
-        display: "flex",
-        alignItems: "center",
-        gap: 1.25,
-        bgcolor: "background.paper",
-      }}
-    >
-      <Box
-        sx={{
-          width: 40,
-          height: 40,
-          borderRadius: 2,
-          display: "grid",
-          placeItems: "center",
-          bgcolor: (t) =>
-            t.palette.mode === "dark"
-              ? "rgba(255,255,255,0.06)"
-              : "rgba(15,23,42,0.04)",
-        }}
-      >
-        {icon}
-      </Box>
-      <Box sx={{ minWidth: 0 }}>
-        <Typography variant="caption" color="text.secondary">
-          {label}
-        </Typography>
-        <Typography sx={{ fontWeight: 900, lineHeight: 1.25 }}>
-          {value}
-        </Typography>
-      </Box>
-    </Paper>
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" {...props}>
+      <path
+        d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+      />
+      <circle cx="12" cy="9.5" r="2.4" stroke="currentColor" strokeWidth="1.6" />
+    </svg>
   );
 }
+function IconBed(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" {...props}>
+      <path
+        d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6M3 18v2M21 18v2M3 12V7a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v3M12 10h9"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+function IconDoor(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" {...props}>
+      <rect x="5" y="3" width="14" height="18" rx="1.2" stroke="currentColor" strokeWidth="1.6" />
+      <circle cx="15" cy="12" r="1" fill="currentColor" />
+    </svg>
+  );
+}
+function IconCoin(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" {...props}>
+      <circle cx="12" cy="12" r="8.5" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M12 7.5v9M9.3 9.7c0-1.2 1.2-2.2 2.7-2.2s2.7.7 2.7 1.8-1 1.6-2.7 2-2.7.9-2.7 2 1.2 1.8 2.7 1.8 2.7-.9 2.7-2.1" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+}
+function IconWarning(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" {...props}>
+      <path
+        d="M12 3.5 21.5 20h-19L12 3.5Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path d="M12 9.5v4.2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <circle cx="12" cy="16.8" r="0.9" fill="currentColor" />
+    </svg>
+  );
+}
+
+/* ---------- small building blocks ---------- */
+
+function StatCard({ icon, label, value }) {
+  return (
+    <div className="statCard">
+      <div className="statCard__icon">{icon}</div>
+      <div className="statCard__text">
+        <span className="statCard__label">{label}</span>
+        <span className="statCard__value">{value}</span>
+      </div>
+    </div>
+  );
+}
+
+function Chip({ children, tone = "neutral" }) {
+  return <span className={`hdChip hdChip--${tone}`}>{children}</span>;
+}
+
+function Spinner() {
+  return <div className="spinner" role="status" aria-label="Loading" />;
+}
+
+/* ---------- main component ---------- */
 
 export default function HouseDetails() {
   const { id } = useParams();
@@ -94,17 +111,20 @@ export default function HouseDetails() {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
-  // Apply state
   const [applying, setApplying] = useState(false);
   const [applied, setApplied] = useState(false);
 
-  // Report state
   const [reportOpen, setReportOpen] = useState(false);
   const [reportReason, setReportReason] = useState("");
   const [reporting, setReporting] = useState(false);
 
-  // Toast
   const [toast, setToast] = useState(null);
+
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 2500);
+    return () => clearTimeout(t);
+  }, [toast]);
 
   useEffect(() => {
     let cancelled = false;
@@ -115,12 +135,11 @@ export default function HouseDetails() {
 
       try {
         const data = await houseApi.get(id);
-        const h = data?.house ?? data; // support both shapes
+        const h = data?.house ?? data;
 
         if (!cancelled) {
           setHouse(h);
 
-          // Check if already applied (mock-ready, doesn't break if endpoint changes later)
           if (isAuthed) {
             try {
               const mine = await applicationApi.listMy({ pageSize: 200 });
@@ -168,7 +187,7 @@ export default function HouseDetails() {
         setToast({ type: "info", text: "You already applied to this listing." });
       } else if (out?.ok) {
         setApplied(true);
-        setToast({ type: "success", text: "Application sent successfully ✅" });
+        setToast({ type: "success", text: "Application sent successfully" });
       } else {
         setToast({ type: "error", text: out?.message || "Failed to apply." });
       }
@@ -206,257 +225,172 @@ export default function HouseDetails() {
       setReporting(false);
     }
   };
-const isOwner = Boolean(house?.owner_id) && String(house?.owner_id) === String(userId);
+
+  const isOwner = Boolean(house?.owner_id) && String(house?.owner_id) === String(userId);
 
   return (
     <PageShell variant="wide">
-      <Box sx={{ maxWidth: 1200, mx: "auto", width: "100%", px: { xs: 2, md: 0 } }}>
+      <div className="hdPage">
         {loading ? (
-          <Box sx={{ display: "flex", justifyContent: "center", py: 10 }}>
-            <CircularProgress />
-          </Box>
+          <div className="hdLoading">
+            <Spinner />
+          </div>
         ) : notFound || !house ? (
-          <Paper variant="outlined" sx={{ p: 3, borderRadius: 3 }}>
-            <Typography variant="h6" sx={{ fontWeight: 900 }}>
-              Listing not found
-            </Typography>
-            <Typography sx={{ mt: 1, opacity: 0.8 }}>
+          <div className="hdCard hdCard--pad">
+            <h2 className="hdNotFound__title">Listing not found</h2>
+            <p className="hdNotFound__text">
               The listing may have been removed or the ID is invalid.
-            </Typography>
-          </Paper>
+            </p>
+          </div>
         ) : (
           (() => {
             const total = Number(house.total_rooms || 0);
             const occupied = Number(house.occupied_rooms || 0);
             const availableRooms = Math.max(total - occupied, 0);
             const isAvailable = availableRooms > 0;
-
-            // accept either images[] or image_urls[]
             const images = normalizeImages(house.images || house.image_urls);
 
             return (
-              <Stack spacing={3}>
-                <Paper
-                  variant="outlined"
-                  sx={{
-                    p: { xs: 1.5, md: 2 },
-                    borderRadius: 4,
-                    overflow: "hidden",
-                  }}
-                >
-                  <Stack spacing={2}>
-                    <Box sx={{ position: "relative" }}>
-                      <HouseGallery images={images} />
-                      <Box
-                        sx={{
-                          position: "absolute",
-                          left: 14,
-                          top: 14,
-                          display: "flex",
-                          gap: 1,
-                          flexWrap: "wrap",
-                        }}
+              <div className="hdStack">
+                {/* Hero */}
+                <div className="hdCard hdHero">
+                  <div className="hdHero__mediaWrap">
+                    <HouseGallery images={images} />
+                    <div className="hdHero__chips">
+                      <Chip>
+                        <IconPin /> {house.location || "Unknown"}
+                      </Chip>
+                      <Chip tone={isAvailable ? "success" : "neutral"}>
+                        {isAvailable ? `${availableRooms} rooms available` : "Full"}
+                      </Chip>
+                      <Chip>{(house.status || "AVAILABLE").toString()}</Chip>
+                    </div>
+                  </div>
+
+                  <div className="hdHero__body">
+                    <h1 className="hdHero__title">{house.title}</h1>
+                    <p className="hdHero__subtitle">
+                      A comfortable place to co-rent — review details and apply in one click.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Content grid */}
+                <div className="hdGrid">
+                  <div className="hdGrid__main">
+                    <div className="hdStats">
+                      <StatCard
+                        icon={<IconCoin />}
+                        label="Price / room"
+                        value={formatMAD(house.price_per_room)}
+                      />
+                      <StatCard
+                        icon={<IconBed />}
+                        label="Occupancy"
+                        value={`${occupied}/${total}`}
+                      />
+                      <StatCard
+                        icon={<IconDoor />}
+                        label="Availability"
+                        value={`${availableRooms}/${total}`}
+                      />
+                    </div>
+
+                    <div className="hdCard hdCard--pad">
+                      <h3 className="hdSection__title">Description</h3>
+                      <div className="hdDivider" />
+                      <p className="hdSection__body">
+                        {house.description || "No description."}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="hdGrid__side">
+                    <div className="hdCard hdCard--pad hdSticky">
+                      <div className="hdPriceBlock">
+                        <div className="hdPriceBlock__row">
+                          <span className="hdPriceBlock__price">
+                            {formatMAD(house.price_per_room)}
+                          </span>
+                          <span className="hdPriceBlock__unit">/ room</span>
+                        </div>
+                        <p className="hdPriceBlock__avail">
+                          Availability: {availableRooms} / {total} rooms
+                        </p>
+                      </div>
+
+                      <button
+                        className="hdBtn hdBtn--primary hdBtn--full"
+                        onClick={handleApply}
+                        disabled={isOwner || applying || applied || !isAvailable}
                       >
-                        <Chip
-                          size="small"
-                          icon={<PlaceOutlinedIcon />}
-                          label={house.location || "Unknown"}
-                          sx={{
-                            borderRadius: 999,
-                            bgcolor: (t) =>
-                              t.palette.mode === "dark"
-                                ? "rgba(15,23,42,0.65)"
-                                : "rgba(255,255,255,0.75)",
-                            backdropFilter: "blur(10px)",
-                          }}
-                        />
-                        <Chip
-                          size="small"
-                          label={isAvailable ? `${availableRooms} rooms available` : "Full"}
-                          color={isAvailable ? "success" : "default"}
-                          sx={{
-                            borderRadius: 999,
-                            bgcolor: (t) =>
-                              t.palette.mode === "dark"
-                                ? "rgba(15,23,42,0.65)"
-                                : "rgba(255,255,255,0.75)",
-                            backdropFilter: "blur(10px)",
-                          }}
-                        />
-                        <Chip
-                          size="small"
-                          label={(house.status || "AVAILABLE").toString()}
-                          sx={{
-                            borderRadius: 999,
-                            bgcolor: (t) =>
-                              t.palette.mode === "dark"
-                                ? "rgba(15,23,42,0.65)"
-                                : "rgba(255,255,255,0.75)",
-                            backdropFilter: "blur(10px)",
-                          }}
-                        />
-                      </Box>
-                    </Box>
+                        {!isAvailable
+                          ? "No rooms available"
+                          : applied
+                          ? "Applied"
+                          : applying
+                          ? "Applying…"
+                          : "Apply for this house"}
+                      </button>
 
-                    <Stack spacing={0.5}>
-                      <Typography variant="h4" sx={{ fontWeight: 950, letterSpacing: -0.5 }}>
-                        {house.title}
-                      </Typography>
-                      <Typography color="text.secondary">
-                        A comfortable place to co-rent — review details and apply in one click.
-                      </Typography>
-                    </Stack>
-                  </Stack>
-                </Paper>
+                      <button
+                        className="hdBtn hdBtn--danger hdBtn--full"
+                        onClick={handleOpenReport}
+                        disabled={isOwner}
+                      >
+                        <IconWarning /> Report listing
+                      </button>
 
-                <Grid container spacing={3} alignItems="flex-start">
-                  <Grid item xs={12} md={8}>
-                    <Stack spacing={2.5}>
-                      <Grid container spacing={1.5}>
-                        <Grid item xs={12} sm={4}>
-                          <StatCard
-                            icon={<PaymentsOutlinedIcon fontSize="small" />}
-                            label="Price / room"
-                            value={formatMAD(house.price_per_room)}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                          <StatCard
-                            icon={<BedOutlinedIcon fontSize="small" />}
-                            label="Occupancy"
-                            value={`${occupied}/${total}`}
-                          />
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                          <StatCard
-                            icon={<MeetingRoomOutlinedIcon fontSize="small" />}
-                            label="Availability"
-                            value={`${availableRooms}/${total}`}
-                          />
-                        </Grid>
-                      </Grid>
-
-                      <Paper variant="outlined" sx={{ p: 2.5, borderRadius: 4 }}>
-                        <Stack spacing={1.25}>
-                          <Typography variant="h6" sx={{ fontWeight: 950 }}>
-                            Description
-                          </Typography>
-                          <Divider />
-                          <Typography sx={{ whiteSpace: "pre-wrap", opacity: 0.95 }}>
-                            {house.description || "No description."}
-                          </Typography>
-                        </Stack>
-                      </Paper>
-                    </Stack>
-                  </Grid>
-
-                  <Grid item xs={12} md={4}>
-                    <Box sx={{ position: { md: "sticky" }, top: { md: 88 } }}>
-                      <Paper variant="outlined" sx={{ p: 2.5, borderRadius: 4 }}>
-                        <Stack spacing={2}>
-                          <Box>
-                            <Stack direction="row" alignItems="baseline" spacing={1} flexWrap="wrap">
-                              <Typography variant="h4" sx={{ fontWeight: 950, letterSpacing: -0.5 }}>
-                                {formatMAD(house.price_per_room)}
-                              </Typography>
-                              <Typography variant="body2" color="text.secondary">
-                                / room
-                              </Typography>
-                            </Stack>
-                            <Typography color="text.secondary" sx={{ mt: 0.5 }}>
-                              Availability: {availableRooms} / {total} rooms
-                            </Typography>
-                          </Box>
-
-                          <Button
-                            variant="contained"
-                            size="large"
-                            sx={{ borderRadius: 2.5, py: 1.25 }}
-                            onClick={handleApply}
-                            disabled={isOwner || applying || applied || !isAvailable}
-                          >
-                            {!isAvailable
-                              ? "No rooms available"
-                              : applied
-                              ? "Applied ✅"
-                              : applying
-                              ? "Applying…"
-                              : "Apply for this house"}
-                          </Button>
-
-                          <Button
-                            variant="contained"
-                            color="error"
-                            size="large"
-                            startIcon={<ReportProblemOutlinedIcon />}
-                            sx={{
-                              borderRadius: 2.5,
-                              py: 1.25,
-                              fontWeight: 800,
-                              boxShadow: "none",
-                              "&:hover": {
-                                boxShadow: "none",
-                                bgcolor: (t) => t.palette.error.dark,
-                              },
-                               
-                            }}
-                            onClick={handleOpenReport}
-                            disabled= {isOwner}
-                          >
-                            Report listing
-                          </Button>
-
-                          <Typography variant="caption" color="text.secondary" sx={{ opacity: 0.9 }}>
-                            By applying, you agree to follow house rules and platform policy.
-                          </Typography>
-                        </Stack>
-                      </Paper>
-                    </Box>
-                  </Grid>
-                </Grid>
-              </Stack>
+                      <p className="hdPriceBlock__legal">
+                        By applying, you agree to follow house rules and platform policy.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             );
           })()
         )}
-      </Box>
+      </div>
 
-      {/* Report dialog (does not affect layout) */}
-      <Dialog open={reportOpen} onClose={() => setReportOpen(false)} fullWidth maxWidth="sm">
-        <DialogTitle>Report listing</DialogTitle>
-        <DialogContent>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-            Tell us what’s wrong with this listing.
-          </Typography>
-          <TextField
-            value={reportReason}
-            onChange={(e) => setReportReason(e.target.value)}
-            placeholder="Reason (optional)"
-            fullWidth
-            multiline
-            minRows={3}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setReportOpen(false)}>Cancel</Button>
-          <Button variant="contained" color="error" onClick={handleSubmitReport} disabled={reporting}>
-            {reporting ? "Sending…" : "Submit report"}
-          </Button>
-        </DialogActions>
-      </Dialog>
+      {/* Report dialog */}
+      {reportOpen && (
+        <div className="hdOverlay" onClick={() => setReportOpen(false)}>
+          <div className="hdDialog" onClick={(e) => e.stopPropagation()}>
+            <h3 className="hdDialog__title">Report listing</h3>
+            <p className="hdDialog__hint">Tell us what's wrong with this listing.</p>
+            <textarea
+              className="hdTextarea"
+              value={reportReason}
+              onChange={(e) => setReportReason(e.target.value)}
+              placeholder="Reason (optional)"
+              rows={3}
+            />
+            <div className="hdDialog__actions">
+              <button className="hdBtn hdBtn--ghost" onClick={() => setReportOpen(false)}>
+                Cancel
+              </button>
+              <button
+                className="hdBtn hdBtn--danger"
+                onClick={handleSubmitReport}
+                disabled={reporting}
+              >
+                {reporting ? "Sending…" : "Submit report"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
-      {/* Toast (does not affect layout) */}
-      <Snackbar
-        open={Boolean(toast)}
-        autoHideDuration={2500}
-        onClose={() => setToast(null)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        {toast ? (
-          <Alert severity={toast.type || "info"} variant="filled" onClose={() => setToast(null)}>
-            {toast.text}
-          </Alert>
-        ) : null}
-      </Snackbar>
+      {/* Toast */}
+      {toast && (
+        <div className={`hdToast hdToast--${toast.type || "info"}`}>
+          <span>{toast.text}</span>
+          <button className="hdToast__close" onClick={() => setToast(null)} aria-label="Dismiss">
+            ×
+          </button>
+        </div>
+      )}
     </PageShell>
   );
 }

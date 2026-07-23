@@ -26,7 +26,7 @@ export default function UserLayout() {
     >
       {!hideNavbar ? <Navbar /> : null}
 
-      {/* main content: push down under fixed navbar and make it take remaining height */}
+    
       <Box
         component="main"
         sx={{

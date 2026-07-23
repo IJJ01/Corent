@@ -50,8 +50,19 @@ export default function Signup() {
   }
 
   async function handleSubmit(e) {
-    e.preventDefault();
+    e?.preventDefault?.();
+
+    // Guard: only allow submission from the final step.
+    // This protects against the button being reused/repurposed
+    // mid-click during the step transition.
+    if (step !== TOTAL_STEPS) return;
+
     setMsg(null);
+
+    if (!password || !confirmPassword) {
+      setMsg({ type: "err", text: "Please enter and confirm your password." });
+      return;
+    }
 
     if (password !== confirmPassword) {
       setMsg({ type: "err", text: "Passwords do not match." });
@@ -112,7 +123,7 @@ export default function Signup() {
         {/* Step indicator */}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="formGrid">
+        <div className="formGrid">
           {msg?.type === "ok" && <div className="success">{msg.text}</div>}
           {msg?.type === "err" && <div className="error">{msg.text}</div>}
 
@@ -241,7 +252,7 @@ export default function Signup() {
               </div>
             </div>
           )}
-          
+
           <p className="authSubtitle">
             Step {step} of {TOTAL_STEPS} - {stepLabels[step - 1]}
           </p>
@@ -267,23 +278,26 @@ export default function Signup() {
               </button>
             ) : (
               <button
-                type="submit"
+                type="button"
                 className="btn btn--solid stepNext"
                 disabled={loading}
+                onClick={handleSubmit}
               >
                 {loading ? "Creating..." : "Create account"}
               </button>
             )}
           </div>
-        </form>
+        </div>
         <div className="stepIndicator">
-            {Array.from({ length: TOTAL_STEPS }, (_, i) => (
-              <div
-                key={i}
-                className={`stepDot ${step > i + 1 ? "stepDot--done" : ""} ${step === i + 1 ? "stepDot--active" : ""}`}
-              />
-            ))}
-          </div>
+          {Array.from({ length: TOTAL_STEPS }, (_, i) => (
+            <div
+              key={i}
+              className={`stepDot ${step > i + 1 ? "stepDot--done" : ""} ${
+                step === i + 1 ? "stepDot--active" : ""
+              }`}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

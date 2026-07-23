@@ -1,12 +1,10 @@
-// src/components/common/NotificationsBell.jsx
-import { useEffect, useMemo, useState } from "react";
-import { Badge, IconButton, Menu, Tooltip } from "@mui/material";
-import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../auth/AuthContext";
 import { notificationApi } from "../../api/notificationApi";
 import NotificationsPanel from "./NotificationsPanel";
-import { useNavigate } from "react-router-dom";
+
 function isUnread(n) {
   if (typeof n?.read === "boolean") return !n.read;
   return !n?.read_at;
@@ -14,12 +12,13 @@ function isUnread(n) {
 
 export default function NotificationsBell() {
   const { isAuthed } = useAuth();
+  const navigate = useNavigate();
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-
+  const [open, setOpen] = useState(false);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const wrapperRef = useRef(null);
 
   const unreadCount = useMemo(
     () => (Array.isArray(items) ? items.filter(isUnread).length : 0),
@@ -28,7 +27,9 @@ export default function NotificationsBell() {
 
   const refresh = async () => {
     if (!isAuthed) return;
+
     setLoading(true);
+
     try {
       const list = await notificationApi.list({ pageSize: 5 });
       setItems(Array.isArray(list) ? list : []);
@@ -37,87 +38,103 @@ export default function NotificationsBell() {
     }
   };
 
-  // light polling so badge stays fresh
   useEffect(() => {
     if (!isAuthed) return;
+
     refresh();
-    const t = setInterval(refresh, 20000);
-    return () => clearInterval(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    const timer = setInterval(refresh, 20000);
+
+    return () => clearInterval(timer);
   }, [isAuthed]);
 
-  const onOpen = (e) => {
-    setAnchorEl(e.currentTarget);
+  // Close when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const onOpen = () => {
+    setOpen((prev) => !prev);
     refresh();
   };
 
-  const onClose = () => setAnchorEl(null);
-
   const onClickItem = async (n) => {
     if (!n?.id) return;
-    
-    const navigate = useNavigate();
 
-// after markAsRead:
-if (n?.link) navigate(n.link);
-
-    // click = mark as read (no navigation)
     if (isUnread(n)) {
       await notificationApi.markAsRead(n.id);
+
       setItems((prev) =>
         prev.map((x) =>
-          x.id === n.id ? { ...x, read_at: x.read_at || new Date().toISOString(), read: true } : x
+          x.id === n.id
+            ? {
+                ...x,
+                read: true,
+                read_at: x.read_at || new Date().toISOString(),
+              }
+            : x
         )
       );
+    }
+
+    if (n.link) {
+      navigate(n.link);
+      setOpen(false);
     }
   };
 
   const onMarkAllRead = async () => {
     await notificationApi.markAllAsRead();
+
     const now = new Date().toISOString();
-    setItems((prev) => prev.map((x) => ({ ...x, read_at: x.read_at || now, read: true })));
+
+    setItems((prev) =>
+      prev.map((x) => ({
+        ...x,
+        read: true,
+        read_at: x.read_at || now,
+      }))
+    );
   };
 
   if (!isAuthed) return null;
 
   return (
-    <>
-      <Tooltip title="Notifications" arrow>
-        <IconButton
-          onClick={onOpen}
-          size="small"
-          sx={{
-            width: 36,
-            height: 36,
-            borderRadius: 999,
-            border: (t) =>
-              `1px solid ${
-                t.palette.mode === "dark" ? "rgba(255,255,255,0.14)" : "rgba(15,23,42,0.14)"
-              }`,
-          }}
-        >
-          <Badge badgeContent={unreadCount} color="error" overlap="circular" max={9}>
-            <NotificationsNoneOutlinedIcon fontSize="small" />
-          </Badge>
-        </IconButton>
-      </Tooltip>
-
-      <Menu
-        anchorEl={anchorEl}
-        open={open}
-        onClose={onClose}
-        PaperProps={{ sx: { borderRadius: 3, overflow: "hidden" } }}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        transformOrigin={{ vertical: "top", horizontal: "right" }}
+    <div className="notification-wrapper" ref={wrapperRef}>
+      <button
+        className="notification-button"
+        onClick={onOpen}
+        title="Notifications"
       >
-        <NotificationsPanel
-          items={items}
-          loading={loading}
-          onClickItem={onClickItem}
-          onMarkAllRead={onMarkAllRead}
-          maxItems={5}
-        />
-      </Menu>
-    </>
+        <i class="fa-regular fa-bell"></i>
+
+        {unreadCount > 0 && (
+          <span className="notification-count">
+            {unreadCount > 9 ? "9+" : unreadCount}
+          </span>
+        )}
+      </button>
+
+      {open && (
+        <div className="notification-menu">
+          <NotificationsPanel
+            items={items}
+            loading={loading}
+            onClickItem={onClickItem}
+            onMarkAllRead={onMarkAllRead}
+            maxItems={5}
+          />
+        </div>
+      )}
+    </div>
   );
 }

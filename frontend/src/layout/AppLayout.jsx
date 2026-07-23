@@ -42,7 +42,6 @@ export default function AppLayout() {
           backgroundRepeat: "no-repeat",
         }}
       >
-        {/* ✅ This centers ALL pages and fixes “everything stuck to the left” */}
         <Container
           maxWidth={false}
           disableGutters
