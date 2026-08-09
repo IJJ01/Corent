@@ -11,6 +11,9 @@ export default function PageShell({
     <Box
       sx={{
         width: "100%",
+        minHeight: "100%",
+        display: "flex",
+        flexDirection: "column",
         px: { xs: 2, md: 3 },
         py: { xs: 2, md: 3 },
       }}
@@ -20,6 +23,9 @@ export default function PageShell({
           width: "100%",
           maxWidth: maxW,
           mx: "auto",
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
           ...sx,
         }}
       >

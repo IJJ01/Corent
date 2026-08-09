@@ -13,11 +13,11 @@ export default function AppLayout() {
     theme.palette.mode === "light"
       ? `radial-gradient(900px 420px at 25% 0%, ${alpha(
           theme.palette.primary.main,
-          0.1
+          0.1,
         )} 0%, transparent 60%)`
       : `radial-gradient(900px 420px at 25% 0%, ${alpha(
           theme.palette.primary.main,
-          0.18
+          0.18,
         )} 0%, transparent 60%)`;
 
   return (
@@ -36,6 +36,9 @@ export default function AppLayout() {
         component="main"
         sx={{
           flex: 1,
+          minHeight: 0,
+          display: "flex",
+          flexDirection: "column",
           width: "100%",
           py: { xs: 2, sm: 3, md: 4 },
           backgroundImage: glow,
@@ -58,8 +61,4 @@ export default function AppLayout() {
       </Box>
     </Box>
   );
-
-  
-
-  
 }

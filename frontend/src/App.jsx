@@ -27,6 +27,10 @@ import MyListings from "./pages/house/MyListings";
 import SmokeTest from "./pages/SmokeTest";
 import OwnerApplications from "./pages/house/OwnerApplications";
 
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+
+
 export default function App() {
   return (
     <Routes>

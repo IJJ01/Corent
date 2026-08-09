@@ -82,7 +82,7 @@ export default function MyListings() {
   const rows = useMemo(() => houses || [], [houses]);
 
   return (
-    <PageShell variant="wide">
+    <PageShell variant="wide" >
       <Box sx={{ width: "100%" }}>
         {/* Full width shell inside AppLayout container */}
         <Paper
@@ -111,6 +111,7 @@ export default function MyListings() {
             alignItems={{ xs: "stretch", sm: "center" }}
             sx={{ mb: 2 }}
           >
+
             <Box>
               <Typography
                 variant="h4"
@@ -128,7 +129,7 @@ export default function MyListings() {
             </Box>
 
             <button className="btn btn--solid" onClick={() => nav("/create")}>
-              Create listing
+              <span><i class="fa-solid fa-plus"></i></span> Create listing
             </button>
           </Stack>
 
@@ -259,7 +260,7 @@ export default function MyListings() {
                           alignItems="center"
                           flexWrap="wrap"
                         >
-                          <Typography sx={{ fontWeight: 950 }} noWrap>
+                          <Typography sx={{ fontWeight: 800 }} noWrap>
                             {h.title}
                           </Typography>
 
@@ -303,7 +304,7 @@ export default function MyListings() {
                       <Typography
                         sx={{
                           display: { xs: "none", md: "block" },
-                          fontWeight: 900,
+                          fontWeight: 800,
                         }}
                       >
                         {formatMAD(h.price_per_room)}
@@ -323,7 +324,7 @@ export default function MyListings() {
                           className="btn btn--secondary"
                           onClick={() => nav(`/edit/${h.id}`)}
                         >
-                          Edit
+                          <i class="fa-solid fa-pen"></i>
                         </button>
 
                         <button
@@ -331,7 +332,6 @@ export default function MyListings() {
                           onClick={async () => {
                             if (!confirm("Delete this listing?")) return;
                             try {
-                              // ✅ safe call signature: remove(id)
                               await houseApi.remove(h.id);
                               await load();
                             } catch (e) {
@@ -341,7 +341,7 @@ export default function MyListings() {
                             }
                           }}
                         >
-                          Delete
+                          <i class="fa-solid fa-trash"></i>
                         </button>
                       </Stack>
                     </Box>

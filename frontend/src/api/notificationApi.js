@@ -27,7 +27,7 @@ export const notificationApi = {
   },
 
   async markAllAsRead() {
-    const res = await apiPost("/notifications/read-all", {});
+    const res = await apiPost("/notifications/mark-all-read", {});
     return res?.data;
   },
 };
