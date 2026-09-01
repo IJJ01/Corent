@@ -79,30 +79,15 @@ export default function Navbar() {
             alignItems="center"
             spacing={1.25}
             sx={{ cursor: "pointer", userSelect: "none" }}
-            onClick={() => navigate("/browse")}
+            onClick={() => navigate("/")}
           >
-            <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: -0.4, color: "#1abc9c", fontFamily:'"Montserrat", sans-serif'}}>
+            <Typography variant="h5" sx={{ fontWeight: 800, letterSpacing: -0.4, color: "#1abc9c", fontFamily:'"Montserrat", sans-serif'}}>
               CoRent
             </Typography>
           </Stack>
 
           {/* Nav */}
           <Stack direction="row" spacing={0.75} sx={{ flex: 1, ml: 1 }}>
-
-            {isAuthed && (
-              <>
-                <Box component={NavLink} to="/my-listings" sx={navLinkSx}>
-                  My Listings
-                </Box>
-                <Box component={NavLink} to="/owner/applications" sx={navLinkSx}>
-  Applications
-</Box>
-
-                <Box component={NavLink} to="/create" sx={navLinkSx}>
-                  New Listing
-                </Box>
-              </>
-            )}
           </Stack>
 
           {/* Actions */}
@@ -178,32 +163,6 @@ export default function Navbar() {
                 Login
               </Button>
             )}
-
-            {/* Theme toggle */}
-            <Tooltip title={mode === "dark" ? "Switch to light" : "Switch to dark"} arrow>
-              <IconButton
-                onClick={toggleColorMode}
-                sx={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 999,
-                  border: (t) =>
-                    `1px solid ${
-                      t.palette.mode === "dark"
-                        ? "rgba(255,255,255,0.14)"
-                        : "rgba(15,23,42,0.14)"
-                    }`,
-                  bgcolor: (t) =>
-                    alpha(t.palette.text.primary, t.palette.mode === "dark" ? 0.08 : 0.04),
-                  "&:hover": {
-                    bgcolor: (t) =>
-                      alpha(t.palette.text.primary, t.palette.mode === "dark" ? 0.12 : 0.08),
-                  },
-                }}
-              >
-                {mode === "dark" ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
-              </IconButton>
-            </Tooltip>
           </Stack>
         </Toolbar>
       </Container>

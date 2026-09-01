@@ -72,7 +72,7 @@ export default function OwnerApplications() {
   return (
     <PageShell variant="wide">
       <Box sx={{ Width: "100%"}}>
-        <Paper variant="outlined" sx={{ p: 2.5, borderRadius: 2 }}>
+        <Paper variant="outlined" sx={{ p: 2.5, borderRadius: 1 }}>
           <Stack spacing={0.5}>
             <Typography variant="h5" sx={{ fontWeight: 950 }}>
               Applications
@@ -98,7 +98,7 @@ export default function OwnerApplications() {
                 <Paper
                   key={a.id}
                   variant="outlined"
-                  sx={{ p: 2, borderRadius: 1.5 }}
+                  sx={{ p: 2, borderRadius: 1.5  }}
                 >
                   <Stack
                     direction={{ xs: "column", md: "row" }}

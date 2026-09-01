@@ -11,6 +11,7 @@ function firstImage(images) {
 }
 
 export default function HouseCard({ house }) {
+  console.log("house data:", house);
   const id = house?.id;
   const img = firstImage(house?.images);
   const total = Number(house?.total_rooms || 0);

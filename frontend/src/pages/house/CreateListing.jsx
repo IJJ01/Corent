@@ -141,10 +141,10 @@ export default function CreateListing() {
       <div className="headerListing"></div>
       <div className="listingCard">
         <div className="listingHeader">
-          <h1 className="listingTitle">Create a new listing</h1>
+          <h1 className="listingTitle">New listing</h1>
           <div className="actionsRow">
             <button
-              className="btn btn--strokevar"
+              className="btn btn--solid"
               type="submit"
               form="create-listing-form"
               disabled={!isAuthed || !userId || submitting}

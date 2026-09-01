@@ -89,8 +89,7 @@ export default function MyListings() {
           sx={{
             width: "100%",
             p: { xs: 2, md: 3 },
-            borderRadius: 2,
-            backgroundImage: glow,
+            borderRadius: 1,
             backgroundColor:
               theme.palette.mode === "dark"
                 ? "rgba(20,20,28,0.65)"

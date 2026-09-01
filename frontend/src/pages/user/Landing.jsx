@@ -1,212 +1,226 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import heroImg from "./hero_img.png";
+import houseOwner from "./houseowner.png";
+
 
 export default function Landing() {
+  const navigate = useNavigate();
+
+
   return (
-    <div className="container">
-      <div className="shell">
-        <div className="topbar">
-          <div className="brand">
-            <div className="brand__mark" />
-            <div className="brand__name">CoRent</div>
+    <div className="landing-container">
+      <div className="landing-nav">
+        <div className="logo">CoRent</div>
+        <div className="landing-links">
+          <Link to="/Browse">Browse homes</Link>
+          <Link to="/create">List a property</Link>
+          <a href="#features">Why CoRent?</a>
+        </div>
+        <div className="landing-actions">
+          <button
+            className="btn ghost-btn"
+            type="button"
+            onClick={() => navigate("/login")}
+          >
+            Login
+          </button>
+          <button
+            className="btn"
+            type="button"
+            onClick={() => navigate("/signup")}
+          >
+            Sign up
+          </button>
+        </div>
+      </div>
+      <div className="landing-hero">
+        <img src={heroImg} alt="Coliving Illustration" />
+        <div className="landing-hero-Left">
+          <h1 className="landing-headline">
+            Find a Home<span className="accent-dot">.</span>
+            <br />
+            Find Roommates<span className="accent-dot">.</span>
+          </h1>
+          <div className="landing-subline">
+            A platform for
+            <br />
+            shared housing,
+            <br />
+            roommate matching,
+            <br />
+            and easier renting.
           </div>
 
-          <div className="ctaRow" style={{ marginTop: 0 }}>
-            <Link to="/login" className="btn btn--secondary">
-              Log in
-            </Link>
-            <Link to="/signup" className="btn btn--primary">
-              Sign up
-            </Link>
+          <div className="landing-hero-cta">
+            <button
+              className="btn btn--cta"
+              type="button"
+              onClick={() => navigate("/Browse")}
+            >
+              Find a home
+            </button>
+            <button
+              className="btn btn--cta"
+              type="button"
+              onClick={() => navigate("/create")}
+            >
+              List a property
+            </button>
           </div>
         </div>
-
-        <div className="hero">
-          <div className="heroLeft">
-            <div className="heroText">
-              <h1 className="h1">Co-renting made simple, secure, and professional.</h1>
-              <p className="p">
-                CoRent connects tenants looking for shared housing with property owners offering well-managed colocation
-                spaces. Built to reduce friction and increase trust — from discovery to application.
-              </p>
-              <p className="p">
-                Find compatible roommates, track availability, and communicate transparently — all in one platform.
-              </p>
-            </div>
-
-            <div className="heroMeta">
-              <span className="pill">Verified profiles</span>
-              <span className="pill">Clear applications</span>
-              <span className="pill">Owner–tenant transparency</span>
-            </div>
-
-            <div className="ctaRow heroCtas">
-              <Link to="/signup" className="btn btn--accent">
-                Create an account
-              </Link>
-              <Link to="/login" className="btn btn--secondary">
-                I already have an account
-              </Link>
-            </div>
-          </div>
-
-
-          <div className="imageStack">
-            <div className="imageCard">
-              <img
-                src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267"
-                alt="Shared apartment living"
-              />
-            </div>
-
-            <div className="imageCard">
-              <img
-                src="https://images.unsplash.com/photo-1554995207-c18c203602cb"
-                alt="Roommates in shared living space"
-              />
-            </div>
-
-            <div className="imageCard">
-              <img
-                src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85"
-                alt="Modern shared apartment"
-              />
-            </div>
-          </div>
-
+      </div>
+      <div className="landing-value">
+        <p>
+          10,000+
+          <br />
+          <span className="underLabel">Homes</span>
+        </p>
+        <p>
+          25,000+
+          <br />
+          <span className="underLabel">Tenants</span>
+        </p>
+        <p>
+          3,500+
+          <br />
+          <span className="underLabel">Homeowners</span>
+        </p>
+        <p>
+          40+
+          <br />
+          <span className="underLabel">Cities</span>
+        </p>
+      </div>
+      <div className="landing-tenant-cta">
+        <div className="page-title">
+          Ready to find your <br /> next home?
         </div>
-
-        <div className="section">
-          <h3 style={{ margin: "0 0 8px", color: "var(--navy)" }}>Who is CoRent for?</h3>
-          <p className="p">
-            CoRent is designed to serve both sides of colocation — tenants looking for a safe shared home,
-            and owners who want a structured way to manage shared rentals.
-          </p>
-
-          <div className="audienceGrid">
-            {/* TENANTS */}
-            <div className="audienceCard">
-              <div className="audienceMedia">
-                <img
-                  src="https://images.unsplash.com/photo-1524758631624-e2822e304c36"
-                  alt="Roommates in a shared living space"
-                />
-              </div>
-              <div className="audienceBody">
-                <div className="audienceTag">
-                  <span className="dot" /> For tenants
-                </div>
-                <h4 className="audienceTitle">Find compatible roommates and quality shared homes</h4>
-                <p className="p">
-                  Browse trusted listings, present a strong profile, and apply with clarity — without friction.
-                </p>
-                <ul className="audienceList">
-                  <li>Safer profiles and clearer expectations</li>
-                  <li>Simple application flow and availability tracking</li>
-                  <li>More transparent communication with owners</li>
-                </ul>
-              </div>
-            </div>
-
-            {/* OWNERS */}
-            <div className="audienceCard">
-              <div className="audienceMedia">
-                <img
-                  src="https://images.unsplash.com/photo-1560518883-ce09059eeffa"
-                  alt="Property management and shared housing"
-                />
-              </div>
-              <div className="audienceBody">
-                <div className="audienceTag">
-                  <span className="dot" /> For owners
-                </div>
-                <h4 className="audienceTitle">Manage colocation professionally and reduce risk</h4>
-                <p className="p">
-                  Review applications efficiently, keep the process organized, and maintain a reliable tenant experience.
-                </p>
-                <ul className="audienceList">
-                  <li>Structured review of candidates and requests</li>
-                  <li>Clear status updates and reduced back-and-forth</li>
-                  <li>Better tenant matching for shared living</li>
-                </ul>
-              </div>
-            </div>
+        <div className="page-undertext">
+          <span className="accent-words">Discover</span> available houses,
+          <br />
+          find compatible roommates,
+          <br />
+          and apply to the <span className="accent-words">home</span>
+          <br />
+          that fits you<span className="accent-dot">.</span>
+        </div>
+        <div className="landing-hero-cta">
+          <button
+            className="btn btn--cta"
+            type="button"
+            onClick={() => navigate("/Browse")}
+          >
+            Browse Listings
+          </button>
+        </div>
+      </div>
+      <div className="landing-renter-cta">
+        <div className="landing-graphic">
+          <img src={houseOwner} alt="List your property" />
+        </div>
+        <div className="landing-renter-cta-text">
+          <div className="page-title">
+            Have a Property
+            <br /> to Rent?
+          </div>
+          <div className="page-undertext">
+            <span className="accent-words">List</span> your property,
+            <br />
+            <span className="accent-words">reach</span> potential tenants,
+            <br />
+            and <span className="accent-words">manage</span> applications
+            <br />
+            all in <span className="accent-words">one place</span>.
+          </div>
+          <div className="landing-hero-cta">
+            <button
+              className="btn btn--cta"
+              type="button"
+              onClick={() => navigate("/create")}
+            >
+              Create Listing
+            </button>
           </div>
         </div>
+      </div>
 
-
-        <div className="section">
-          <h3 style={{ margin: "0 0 8px", color: "var(--navy)" }}>Trust & reliability</h3>
-          <p className="p">
-            CoRent is built for real-world property rentals and shared living — where trust, privacy, and consistent workflows
-            matter. We design the platform to feel professional for owners and safe for tenants.
-          </p>
-
-          <div className="trustGrid">
-            <div className="trustCards">
-              <div className="trustCard">
-                <div className="trustHeaderRow">
-                  <span className="iconCircle" aria-hidden="true">🔒</span>
-                  <h4 className="trustTitle" style={{ margin: 0 }}>Security-first access</h4>
-                </div>
-                <p className="p">
-                  Authentication and access boundaries are designed to protect accounts and reduce risk across the rental process
-                  — from application to profile management.
-                </p>
-              </div>
-
-              <div className="trustCard">
-                <div className="trustHeaderRow">
-                  <span className="iconCircle" aria-hidden="true">🛡️</span>
-                  <h4 className="trustTitle" style={{ margin: 0 }}>Data protection & privacy</h4>
-                </div>
-                <p className="p">
-                  We follow privacy-minded practices: minimal exposure of sensitive information, clear handling of user data, and
-                  a platform structure that supports reliable growth.
-                </p>
-              </div>
-
-              <div className="trustCard">
-                <div className="trustHeaderRow">
-                  <span className="iconCircle" aria-hidden="true">✅</span>
-                  <h4 className="trustTitle" style={{ margin: 0 }}>Reliable rental workflows</h4>
-                </div>
-                <p className="p">
-                  Applications, availability, and communication stay structured. This helps tenants make decisions faster and
-                  owners manage colocation professionally with less back-and-forth.
-                </p>
-              </div>
-            </div>
-
-            <div className="trustMedia trustMedia3">
-              <div className="trustImage">
-                <img
-                  src="https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1400&q=80"
-                  alt="Modern apartment living"
-                />
-              </div>
-
-              <div className="trustImage">
-                <img
-                  src="https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1400&q=80"
-                  alt="Modern housing interior for rent"
-                />
-              </div>
-
-              <div className="trustImage">
-                <img
-                  src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1400&q=80"
-                  alt="Urban rental home and real estate"
-                />
-              </div>
+      <div className="landing-features">
+        <div className="page-title" id="features">
+          Why CoRent?
+        </div>
+        <div className="feature-content">
+          <div className="feature-lot">
+            <div className="iconBox"></div>
+            <div className="feature-text">
+              <span className="feature-text-title">Roommate Matching</span>
+              <br />
+              We match you with roommates who actually fit
+              <br />
+              your lifestyle, budget, and daily habits.
             </div>
           </div>
-
-          <div className="footerNote">
-            <strong>CoRent</strong> — Helping people rent and share homes with confidence.
+          <div className="feature-lot">
+            <div className="iconBox"></div>
+            <div className="feature-text">
+              <span className="feature-text-title">
+                Verified Listings & Profiles
+              </span>
+              <br />
+              Every property and user goes through verification,
+              <br />
+              so you know who you're renting from or to.
+            </div>
+          </div>
+          <div className="feature-lot">
+            <div className="iconBox"></div>
+            <div className="feature-text">
+              <span className="feature-text-title">
+                Secure Applications & Payments
+              </span>
+              <br />
+              Submit applications, sign agreements, and handle
+              <br />
+              rent payments, all encrypted, all in one place.
+            </div>
+          </div>
+          <div className="feature-lot">
+            <div className="iconBox"></div>
+            <div className="feature-text">
+              <span className="feature-text-title">In-App Messaging</span>
+              <br />
+              Message landlords, tenants, or roommates directly
+              <br />
+              on CoRent, no need to share contact info early.
+            </div>
           </div>
         </div>
+      </div>
 
-
+      <div className="lading-closure-cta">
+        <div className="brandOverlay">
+          CORENTCORENTCORENT
+          <br />
+          CORENTCORENTCORENT
+        </div>
+        <div className="landing-closure-content">
+          <div className="closure-headline">What are you waiting for?</div>
+          <div className="closure-cta landing-hero-cta">
+            <button
+              className="btn btn--cta"
+              type="button"
+              onClick={() => navigate("/Browse")}
+            >
+              Find a home
+            </button>
+            <button
+              className="btn btn--cta"
+              type="button"
+              onClick={() => navigate("/create")}
+            >
+              List a property
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

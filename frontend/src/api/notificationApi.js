@@ -22,7 +22,7 @@ export const notificationApi = {
 
   async markAsRead(notificationId) {
     if (!notificationId) throw new Error("markAsRead: notificationId is required");
-    const res = await apiPost(`/notifications/${notificationId}/read`, {});
+    const res = await apiPost(`/notifications/${notificationId}/mark-read`, {});
     return res?.data;
   },
 
