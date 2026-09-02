@@ -2383,7 +2383,7 @@ input[type="password"]::placeholder {
   position: sticky;
   top: 64px;
   align-self: flex-start;
-  width: 220px;
+  width: 240px;
   height: calc(100vh - 64px);
   overflow-y: auto;
   flex-shrink: 0;
@@ -2406,7 +2406,7 @@ input[type="password"]::placeholder {
   border-radius: 6px;
   text-decoration: none;
   color: #333;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 500;
   transition:
     background-color 0.15s ease,
@@ -2418,9 +2418,7 @@ input[type="password"]::placeholder {
 }
 
 .sidebar-link--active {
-  background-color: #e8e8fc;
-  border: 1px solid #1abc9c;
-  background-color: #f2f2f2;
+  background-color: rgba(26, 188, 156, 0.2);
   color: #1abc9c;
 }
 
@@ -2531,6 +2529,7 @@ input[type="password"]::placeholder {
   flex-direction: row;
   justify-content: space-around;
   padding: 64px 48px;
+  margin: 64px;
 }
 .landing-value p {
   color: #1abc9c;
@@ -2538,6 +2537,13 @@ input[type="password"]::placeholder {
   font-weight: 700;
   text-align: center;
   line-height: 1;
+  margin: 0;
+}
+
+.landing-value p span:first-child {
+  display: inline-block;
+  min-width: 180px;
+  font-variant-numeric: tabular-nums;
 }
 
 .landing-tenant-cta {

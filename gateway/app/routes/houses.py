@@ -84,10 +84,6 @@ def _status_to_enum(status_val: Any) -> int:
 
 
 def _house_to_dict(h) -> dict:
-    """
-    Convert proto HouseMessage/House object to JSON-friendly dict.
-    We use getattr so it won't crash if a field doesn't exist.
-    """
     return {
         "id": getattr(h, "id", ""),
         "owner_id": getattr(h, "owner_id", None),
@@ -102,9 +98,8 @@ def _house_to_dict(h) -> dict:
         "created_at": getattr(h, "created_at", ""),
         "edited_at": getattr(h, "edited_at", ""),
         "deleted_at": getattr(h, "deleted_at", ""),
-        # Optional common fields (won’t crash if missing)
         "city": getattr(h, "city", ""),
-        "images": list(getattr(h, "images", [])) if hasattr(h, "images") else [],
+        "images": [img.image_url for img in getattr(h, "images", [])],  # ✅ extract the url string, not the proto object
     }
 
 
@@ -116,7 +111,8 @@ class CreateHouseIn(BaseModel):
     price_per_room: float = 0
     total_rooms: int = 0
     occupied_rooms: int = 0
-    status: Optional[Any] = None  # can be int or string
+    status: Optional[Any] = None
+    image_urls: list[str] = []
 
 
 def _pick(payload: dict, *keys, default=None):
@@ -319,13 +315,6 @@ def create_house(
     user_id: str = Depends(get_current_user_id),
     grpc_clients: GrpcClients = Depends(get_grpc),
 ):
-    """
-    REST:
-      POST /houses
-    Requires:
-      x-user-id header (owner id)
-    """
-    # Support both snake_case + camelCase if frontend ever sends camelCase
     raw = payload.model_dump()
 
     title = _pick(raw, "title", default="")
@@ -336,34 +325,41 @@ def create_house(
     total_rooms = int(_pick(raw, "total_rooms", "totalRooms", default=0) or 0)
     occupied_rooms = int(_pick(raw, "occupied_rooms", "occupiedRooms", default=0) or 0)
     status = _status_to_enum(_pick(raw, "status", default=None))
+    image_urls = _pick(raw, "image_urls", "imageUrls", default=[]) or []  # ✅ new
 
-    # Build request safely based on proto fields (won't break if proto differs slightly)
     fields = house_pb2.CreateHouseRequest.DESCRIPTOR.fields_by_name
     kwargs = {}
-
-    if "owner_id" in fields:
-        kwargs["owner_id"] = user_id
-    if "title" in fields:
-        kwargs["title"] = title
-    if "description" in fields:
-        kwargs["description"] = description
-    if "location" in fields:
-        kwargs["location"] = location
-    if "city" in fields:
-        kwargs["city"] = city
-    if "price_per_room" in fields:
-        kwargs["price_per_room"] = price_per_room
-    if "total_rooms" in fields:
-        kwargs["total_rooms"] = total_rooms
-    if "occupied_rooms" in fields:
-        kwargs["occupied_rooms"] = occupied_rooms
-    if "status" in fields:
-        kwargs["status"] = status
+    if "owner_id" in fields: kwargs["owner_id"] = user_id
+    if "title" in fields: kwargs["title"] = title
+    if "description" in fields: kwargs["description"] = description
+    if "location" in fields: kwargs["location"] = location
+    if "city" in fields: kwargs["city"] = city
+    if "price_per_room" in fields: kwargs["price_per_room"] = price_per_room
+    if "total_rooms" in fields: kwargs["total_rooms"] = total_rooms
+    if "occupied_rooms" in fields: kwargs["occupied_rooms"] = occupied_rooms
+    if "status" in fields: kwargs["status"] = status
 
     try:
         res = grpc_clients.houses.CreateHouse(house_pb2.CreateHouseRequest(**kwargs))
+        h = getattr(res, "house", None) or res
+
+        # ✅ new — house has no images yet; add each one via the existing RPC
+        for url in image_urls:
+            if url and str(url).strip():
+                grpc_clients.houses.AddHouseImage(
+                    house_pb2.AddHouseImageRequest(
+                        house_id=h.id,
+                        owner_id=user_id,
+                        image_url=str(url).strip(),
+                    )
+                )
+
+        # re-fetch so the response actually includes the images we just added
+        if image_urls:
+            res = grpc_clients.houses.GetHouse(house_pb2.GetHouseRequest(id=h.id))
+            h = getattr(res, "house", None) or h
+
     except grpc.RpcError as e:
         raise _grpc_to_http(e)
 
-    h = getattr(res, "house", None) or res
     return {"house": _house_to_dict(h)}

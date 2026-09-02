@@ -1,8 +1,59 @@
 import { Link, useNavigate } from "react-router-dom";
 import heroImg from "./hero_img.png";
 import houseOwner from "./houseowner.png";
+import { useEffect, useRef, useState } from "react";
 
+function Counter({ target, duration = 2000 }) {
+  const [count, setCount] = useState(0);
+  const [started, setStarted] = useState(false);
+  const ref = useRef(null);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStarted(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!started) return;
+
+    let startTime = null;
+
+    const animate = (currentTime) => {
+      if (!startTime) startTime = currentTime;
+
+      const progress = Math.min(
+        (currentTime - startTime) / duration,
+        1
+      );
+
+      // Ease-out effect
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+
+      setCount(Math.floor(easedProgress * target));
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [started, target, duration]);
+
+  return <span ref={ref}>{count.toLocaleString()}+</span>;
+}
 export default function Landing() {
   const navigate = useNavigate();
 
@@ -71,22 +122,22 @@ export default function Landing() {
       </div>
       <div className="landing-value">
         <p>
-          10,000+
+          <Counter target={10000} />
           <br />
           <span className="underLabel">Homes</span>
         </p>
         <p>
-          25,000+
+          <Counter target={25000} />
           <br />
           <span className="underLabel">Tenants</span>
         </p>
         <p>
-          3,500+
+          <Counter target={3500} />
           <br />
           <span className="underLabel">Homeowners</span>
         </p>
         <p>
-          40+
+          <Counter target={40} />
           <br />
           <span className="underLabel">Cities</span>
         </p>
