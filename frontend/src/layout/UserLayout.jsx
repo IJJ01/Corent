@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/Footer";
-import Sidebar from "../components/layout/Sidebar";
+import Sidebar from "../components/layout/SideBar";
 
 const NAVBAR_HEIGHT = 64;
 
@@ -12,9 +12,22 @@ export default function UserLayout() {
 
   const hideNavbar =
   loc.pathname === "/" ||
-    loc.pathname === "/login" ||
-    loc.pathname === "/signup" ||
-    loc.pathname === "/reset-password";
+  loc.pathname === "/login" ||
+  loc.pathname === "/signup" ||
+  loc.pathname === "/browse" ||
+  loc.pathname === "/Browse" ||
+  loc.pathname === "/reset-password";
+  
+
+const hideSidebar =
+  loc.pathname === "/" ||
+  loc.pathname === "/login" ||
+  loc.pathname === "/signup" ||
+  
+  loc.pathname === "/reset-password";
+  
+
+  
 
   const hideFooter = loc.pathname.startsWith("/admin");
 
@@ -35,7 +48,7 @@ export default function UserLayout() {
           pt: !hideNavbar ? `${NAVBAR_HEIGHT}px` : 0,
         }}
       >
-        {!hideNavbar && <Sidebar />}
+        {!hideSidebar && <Sidebar />}
 
         <Box component="main" sx={{ flex: 1, minWidth: 0 }}>
           <Outlet />

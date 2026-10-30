@@ -1,7 +1,7 @@
 export default function HouseFilters({ value, onChange }) {
   const v = value;
   return (
-    <div className="filterWrapper">
+    <div className="filterWrapper"> 
       <div className="filterBar">
         <input
           className="filterInput filterInput--grow"

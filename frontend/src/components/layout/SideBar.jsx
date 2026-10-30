@@ -11,6 +11,8 @@ export default function Sidebar() {
 
   return (
     <aside className="sidebar">
+      <div className="sideabr-logo">CoRent</div>
+      <div className="divider"></div>
       <nav className="sidebar-nav">
         <NavLink to="/browse" className={linkClass}>Browse</NavLink>
         <NavLink to="/my-listings" className={linkClass}>My Listings</NavLink>

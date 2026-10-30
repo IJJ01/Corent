@@ -10,7 +10,6 @@ body,
   padding: 0;
   height: 100%;
   background: #f6f7fb;
-  overflow-x: hidden;
 }
 
 * {
@@ -254,6 +253,11 @@ a {
   border-radius: 10px;
   box-shadow: 0 0 0 0 #1abc9c;
   transition: box-shadow 200ms ease;
+}
+
+.landing-actions button:hover{
+  color: #1abc9c;
+  box-shadow: 0 3px 0 0 #1abc9c;
 }
 
 .btn--cta:hover {
@@ -1183,14 +1187,14 @@ input[type="password"]::placeholder {
 .housesWrap {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  padding: 2rem;
+  gap: 12px;
+  margin-right:12px;
 }
 .browse {
   min-height: 100vh;
 }
 .filterWrapper {
-  padding: 2rem 2rem 0 2rem;
+  padding: 12px 12px 12px 0;
 }
 
 /* house card */
@@ -1198,7 +1202,7 @@ input[type="password"]::placeholder {
   display: flex;
   flex-direction: column;
   height: 100%;
-  border-radius: 14px;
+  border-radius: 12px;
   overflow: hidden;
   background: #fff;
   border: 1px solid rgb(194, 194, 194);
@@ -1869,7 +1873,7 @@ input[type="password"]::placeholder {
 }
 
 .divider {
-  height: 1px;
+  height: px;
   background: #e5e5e5;
 }
 
@@ -2380,11 +2384,16 @@ input[type="password"]::placeholder {
   }
 }
 .sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 12px;
+  border-radius: 12px;
   position: sticky;
-  top: 64px;
+  top: 0;
   align-self: flex-start;
   width: 240px;
-  height: calc(100vh - 64px);
+  height: 100vh;
   overflow-y: auto;
   flex-shrink: 0;
   padding: 12px;
@@ -2792,6 +2801,7 @@ input[type="password"]::placeholder {
   height: 32px;
   background-color: #222;
   color: white;
+  transition: box-shadow 200ms ease;
 }
 
 
@@ -2801,4 +2811,11 @@ input[type="password"]::placeholder {
   color: #222;
   border: 2px solid #222;
 
+}
+
+.sideabr-logo{
+  color: #1abc9c;
+  font-weight: 800;
+  margin: 0;
+  font-size: 1.5rem;
 }
