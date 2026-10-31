@@ -2,7 +2,7 @@ import jwt
 import os
 from datetime import datetime, timedelta, timezone
 
-JWT_SECRET = os.getenv("JWT_SECRET", "jwt-secret-key")
+JWT_SECRET = os.getenv("JWT_SECRET")
 JWT_ALGORITHM = "HS256"
 JWT_ACCESS_TTL_MIN = int(os.getenv("JWT_ACCESS_TTL_MIN", 30))
 

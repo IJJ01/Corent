@@ -2,7 +2,7 @@ import jwt
 import os
 from datetime import datetime, timedelta, timezone
 
-RESET_SECRET = os.getenv("JWT_SECRET", "jwt-secret-key")  # you can later separate this
+RESET_SECRET = os.getenv("JWT_SECRET") 
 RESET_ALGORITHM = "HS256"
 RESET_TOKEN_TTL_MIN = int(os.getenv("RESET_TOKEN_TTL_MIN", 15))
 
