@@ -1,6 +1,6 @@
-Django
-psycopg2-binary
-python-dotenv
-grpcio
-grpcio-tools
-protobuf
+Django==6.0.6
+psycopg2-binary==2.9.11
+python-dotenv==1.2.1
+grpcio==1.76.0
+grpcio-tools==1.76.0
+protobuf==6.33.2
