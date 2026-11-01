@@ -24,7 +24,7 @@ import EditListing from "./pages/house/EditListing";
 import HouseDetails from "./pages/house/HouseDetails";
 import MyListings from "./pages/house/MyListings";
 
-import SmokeTest from "./pages/SmokeTest";
+
 import OwnerApplications from "./pages/house/OwnerApplications";
 
 import { ThemeProvider } from "@mui/material/styles";
@@ -40,7 +40,6 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/__smoke" element={<SmokeTest />} />
 
         {/* protected user pages */}
         <Route
