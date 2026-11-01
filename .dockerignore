@@ -1,0 +1,10 @@
+.git
+**/.venv
+**/node_modules
+**/__pycache__
+**/*.pyc
+.env
+**/.env
+frontend/dist
+compose.yaml
+docker/postgres

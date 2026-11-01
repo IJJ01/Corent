@@ -21,5 +21,34 @@ services:
       timeout: 5s
       retries: 10
 
+  user-service:
+    build:
+      context: .
+      dockerfile: docker/service.Dockerfile
+      args:
+        SERVICE: user_service
+    environment:
+      DB_NAME: users_service_db
+      DB_USER: user_service_role
+      DB_PASSWORD: ${USER_DB_PASSWORD:?set it in .env}
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      GRPC_PORT: "50053"
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY_USER:?set it in .env}
+      DJANGO_DEBUG: "False"
+      JWT_SECRET: ${JWT_SECRET:?set it in .env}
+      INTERNAL_GRPC_KEY: ${INTERNAL_GRPC_KEY:?set it in .env}
+      FRONTEND_RESET_URL: http://localhost:5173/reset-password
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; socket.create_connection(('127.0.0.1', 50053), 2)"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+
 volumes:
   pgdata:
+
