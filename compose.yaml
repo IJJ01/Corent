@@ -1,0 +1,25 @@
+name: corent
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set it in .env}
+      USER_DB_PASSWORD: ${USER_DB_PASSWORD:?set it in .env}
+      HOUSE_DB_PASSWORD: ${HOUSE_DB_PASSWORD:?set it in .env}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD:?set it in .env}
+      ADMIN_DB_PASSWORD: ${ADMIN_DB_PASSWORD:?set it in .env}
+      NOTIF_DB_PASSWORD: ${NOTIF_DB_PASSWORD:?set it in .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./scripts/init_db.sql:/docker-entrypoint-initdb.d/01-databases.sql:ro
+      - ./docker/postgres/02-roles.sh:/docker-entrypoint-initdb.d/02-roles.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata:
