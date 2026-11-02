@@ -40,6 +40,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name='house',
-            constraint=models.CheckConstraint(check=models.Q(('occupied_rooms__lte', models.F('total_rooms'))), name='occupied_lte_total'),
+            constraint=models.CheckConstraint(condition=models.Q(('occupied_rooms__lte', models.F('total_rooms'))), name='occupied_lte_total'),
         ),
     ]
