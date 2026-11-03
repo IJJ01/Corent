@@ -136,6 +136,25 @@ services:
       timeout: 5s
       retries: 6
       start_period: 20s
+  notification-service:
+    build:
+      context: .
+      dockerfile: docker/service.Dockerfile
+      args:
+        SERVICE: notification_service
+    environment:
+      DATABASE_URL: postgresql+psycopg2://notification_service_role:${NOTIF_DB_PASSWORD:?set it in .env}@postgres:5432/notification_service_db
+      GRPC_HOST: 0.0.0.0
+      GRPC_PORT: "50056"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; socket.create_connection(('127.0.0.1', 50056), 2)"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
 volumes:
   pgdata:
 
