@@ -187,7 +187,25 @@ services:
       timeout: 5s
       retries: 6
       start_period: 15s
-
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+    environment:
+      VITE_API_BASE_URL: http://localhost:8000
+      VITE_USE_MOCK: "false"
+      VITE_AUTH_BYPASS: "false"
+    ports:
+      - "127.0.0.1:5173:5173"
+    depends_on:
+      gateway:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO", "/dev/null", "http://127.0.0.1:5173/"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 15s
 volumes:
   pgdata:
 
