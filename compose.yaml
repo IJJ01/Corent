@@ -155,6 +155,39 @@ services:
       timeout: 5s
       retries: 6
       start_period: 20s
+
+  gateway:
+    build:
+      context: .
+      dockerfile: docker/gateway.Dockerfile
+    environment:
+      USER_GRPC_ADDR: user-service:50053
+      HOUSE_GRPC_ADDR: house-service:50052
+      APP_GRPC_ADDR: application-service:50051
+      ADMIN_GRPC_ADDR: admin-service:50054
+      NOTIF_GRPC_ADDR: notification-service:50056
+      INTERNAL_GRPC_KEY: ${INTERNAL_GRPC_KEY:?set it in .env}
+      FRONTEND_ORIGIN: http://localhost:5173
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      user-service:
+        condition: service_healthy
+      house-service:
+        condition: service_healthy
+      application-service:
+        condition: service_healthy
+      admin-service:
+        condition: service_healthy
+      notification-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 15s
+
 volumes:
   pgdata:
 
