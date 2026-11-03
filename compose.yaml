@@ -71,6 +71,37 @@ services:
       timeout: 5s
       retries: 6
       start_period: 20s
+  application-service:
+    build:
+      context: .
+      dockerfile: docker/service.Dockerfile
+      args:
+        SERVICE: application_service
+    environment:
+      DB_NAME: app_service_db
+      DB_USER: application_service_role
+      DB_PASSWORD: ${APP_DB_PASSWORD:?set it in .env}
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      SECRET_KEY: ${DJANGO_SECRET_KEY_APPLICATION:?set it in .env}
+      DEBUG: "False"
+      USER_GRPC_ADDR: user-service:50053
+      HOUSE_GRPC_ADDR: house-service:50052
+      NOTIF_GRPC_ADDR: notification-service:50056
+      INTERNAL_GRPC_KEY: ${INTERNAL_GRPC_KEY:?set it in .env}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      user-service:
+        condition: service_healthy
+      house-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; socket.create_connection(('127.0.0.1', 50051), 2)"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
 volumes:
   pgdata:
 
